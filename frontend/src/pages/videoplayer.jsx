@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Chip,  Box, Typography, } from "@mui/material";
+import { Chip,  Box,} from "@mui/material";
 import "./VideoPlayer.css"; 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
