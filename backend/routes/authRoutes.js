@@ -83,8 +83,8 @@ router.post("/api/upload",(req,res)=>{
     try {
 
       const query =
-        "INSERT INTO uploads  ( name, title ,path) VALUES ($1, $2, $3) RETURNING *";
-      const values = [req.body.name, req.body.title, req.files.thumbnail[0].destination];
+        "INSERT INTO uploads  ( name, title ,path,tags) VALUES ($1, $2, $3, $4) RETURNING *";
+      const values = [req.body.name, req.body.title, req.files.thumbnail[0].destination,JSON.parse(req.body.tags)];
   
       const { rows } = await db.query(query, values);
   

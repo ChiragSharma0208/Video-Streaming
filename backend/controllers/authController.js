@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-const { insertRecord, checkRecordExists } = require("../function/function");
+
 
 
 const register = async (req, res) => {

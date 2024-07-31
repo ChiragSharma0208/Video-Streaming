@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./VideoPlayer.css"; // Import CSS for styling
-
+import { Chip,  Box, Typography, } from "@mui/material";
+import "./VideoPlayer.css"; 
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
 export default function VideoPlayer() {
   const { video_id, name, title } = useParams();
   const [userInfo, setUserInfo] = useState("");
@@ -144,6 +146,18 @@ export default function VideoPlayer() {
             Your browser does not support the video tag.
           </video>
         </div>
+        <div className="tags-section">
+          
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            {uploadInfo[0]?.tags?.map((tag, index) => (
+              <Chip
+                key={index}
+                label={tag}
+                color="primary"
+              />
+            ))}
+          </Box>
+        </div>
 
         <div className="video-details">
           <h2 className="video-title">{title}</h2>
@@ -171,13 +185,13 @@ export default function VideoPlayer() {
             )}
 
             {!like ? (
-              <button className="like-btn" onClick={handleLike}>
-                Like{uploadInfo.likes}
-              </button>
+              <>
+               <ThumbUpTwoToneIcon fontSize="large" onClick={handleLike} color='primary'/>
+                {uploadInfo.likes}
+                </>
             ) : (
-              <button className="like-btn" onClick={handleUnlike}>
-                Unlike
-              </button>
+             
+                 <ThumbUpIcon fontSize="large" onClick={handleUnlike} color="primary"/> 
             )}
           </div>
         </div>
@@ -195,7 +209,7 @@ export default function VideoPlayer() {
         </div>
 
         <div className="comments-section">
-          <h2>Comments</h2>
+          <h2>Comments{` (${uniqueComments.length})`}</h2>
           {uniqueComments
             .filter((post) => post.comments)
             .reverse()
