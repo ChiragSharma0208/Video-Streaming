@@ -26,25 +26,25 @@ const {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-      const username = req.body.name; // Assuming username is provided in req.body
-      const title = req.body.title; // Assuming title is provided in req.body
-      const uploadPath = `uploads/${username}/${title}/`; // Path: uploads/username/title/
+      const username = req.body.name; 
+      const title = req.body.title;
+      const uploadPath = `uploads/${username}/${title}/`; 
 
-      fs.mkdirSync(uploadPath, { recursive: true }); // Create nested folders if they don't exist
+      fs.mkdirSync(uploadPath, { recursive: true }); 
       cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
       const ext = path.extname(file.originalname);
-      cb(null, `${file.fieldname}${ext}`); // Keep the original filename
+      cb(null, `${file.fieldname}${ext}`); 
   }
 });
 
-// Initialize upload variable
+
 const upload = multer({
   storage: storage
-}).fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]); // 'video' is the name attribute of the file input field in your HTML form
+}).fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]); 
 
-// POST endpoint to handle file upload
+
 const router = express.Router();
 
 router.use(
