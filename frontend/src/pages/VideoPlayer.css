@@ -1,0 +1,194 @@
+/* VideoPlayer.css */
+
+.video-player-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 5px;
+    width: 100%;
+    max-width: 950px;
+}
+
+.video-player-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.video-player {
+    width: 100%;
+    height: auto;
+    background-color: #000;
+    border-radius: 2%;
+}
+
+.video-details {
+    width: 95%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 20px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.video-author {
+    font-size: 14px;
+    color: #666;
+}
+
+.subscribe-button {
+    display: flex;
+    align-items: center;
+}
+
+.subscribe-btn {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.subscribe-btn:hover {
+    background-color: #e53935;
+}
+
+.like-btn {
+    padding: 10px 20px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.like-btn:hover {
+    background-color: #1976d2;
+}
+
+.user-info {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px 5px;
+}
+
+#comment-box {
+    width: 100%;
+    height: 100px;
+  
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+    resize: none;
+}
+
+#comment-box:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: rgb(8, 8, 132);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+    font-weight: bolder;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.comments-section {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px 5px;
+}
+
+.comment {
+    border-top: 2px solid #000;
+    padding: 10px 0;
+}
+
+.comment p {
+    margin: 5px 0;
+}
+
+.video-list {
+    width: 35%;
+    max-width: 800px;
+    margin: 40px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align items to the right end */
+}
+
+.video-thumbnail {
+    display: flex;
+    align-items: center;
+    margin: 30px 0px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 8px;
+    width: 80%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-thumbnail img {
+    width: 40%;
+    height: 95px;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+
+}
+
+.video-thumbnail p {
+    font-size: 20px;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .video-details {
+        flex-direction: column;
+    }
+
+    .subscribe-button {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .like-btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+.list-data{
+    display: flex;
+    justify-content: space-around;
+} 
+.video-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}

@@ -1,0 +1,85 @@
+/* login.css */
+
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 50px;
+  background-color: #f9f9f9;
+}
+
+.styled-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.styled-form h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.styled-form .MuiTextField-root {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.styled-form .MuiButton-contained {
+  background-color: #6C63FF;
+  color: white;
+}
+
+.styled-form .MuiButton-contained:hover {
+  background-color: #5750d1;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  color: #333;
+}
+
+.remember-forgot label {
+  display: flex;
+  align-items: center;
+}
+
+.remember-forgot a {
+  color: #6C63FF;
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  text-decoration: underline;
+}
+
+.signup {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signup a {
+  color: #6C63FF;
+  text-decoration: none;
+}
+
+.signup a:hover {
+  text-decoration: underline;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
