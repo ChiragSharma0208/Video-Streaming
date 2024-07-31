@@ -7,6 +7,7 @@ export default function Index({ username }) {
   const [posts, setPosts] = useState([]);
   const [sub, setSub] = useState([]);
   const [flag, setFlag] = useState(true);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,15 +32,39 @@ export default function Index({ username }) {
     return <div>Loading...</div>;
   }
 
-  const filteredPosts = flag ? posts : posts.filter(post =>
-    sub.some(subscribedName => post.name === subscribedName)
-  );
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value.toLowerCase());
+  };
+
+  const filteredPosts = flag 
+    ? posts.filter(post => {
+        const titleMatch = post.title && post.title.toLowerCase().includes(search);
+        const tagMatch = post.tags && post.tags.some(tag => tag.toLowerCase() === search);
+        const usernameMatch = post.username && post.username.toLowerCase().includes(search);
+        return titleMatch || tagMatch || usernameMatch;
+      })
+    : posts.filter(post => {
+        const isSubscribed = sub.some(subscribedName => post.name === subscribedName);
+        const titleMatch = post.title && post.title.toLowerCase().includes(search);
+        const tagMatch = post.tags && post.tags.some(tag => tag.toLowerCase() === search);
+        const usernameMatch = post.username && post.username.toLowerCase().includes(search);
+        return isSubscribed && (titleMatch || tagMatch || usernameMatch);
+      });
 
   return (
     <>
       <div className="navbar">
-        <p onClick={() => setFlag(true)} className={flag ? 'active' : ''}><strong>ALL</strong> </p>
+        <p onClick={() => setFlag(true)} className={flag ? 'active' : ''}><strong>ALL</strong></p>
         <p onClick={() => setFlag(false)} className={!flag ? 'active' : ''}><strong>SUBSCRIBED</strong></p>
+      </div>
+
+      <div className="search-bar">
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          value={search} 
+          onChange={handleSearchChange} 
+        />
       </div>
 
       <div className="parent">

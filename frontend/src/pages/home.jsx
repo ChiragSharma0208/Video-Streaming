@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from "../components/header.jsx";
 import Index from "../components/index.jsx";
 import axios from "axios";
