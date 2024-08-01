@@ -53,7 +53,7 @@ export default function Signup() {
           }}
         /><TextField
         id="filled-basic"
-        label="Username"
+        label="About"
         margin="normal"
         variant="filled"
         value={data.about}

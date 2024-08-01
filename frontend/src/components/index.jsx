@@ -13,6 +13,7 @@ export default function Index({ username }) {
     const fetchData = async () => {
       try {
         const { data } = await axios.get("/api/uploads");
+        console.log(data);
         setPosts(data);
 
         if (username && username.subscriptions) { 
@@ -40,14 +41,14 @@ export default function Index({ username }) {
     ? posts.filter(post => {
         const titleMatch = post.title && post.title.toLowerCase().includes(search);
         const tagMatch = post.tags && post.tags.some(tag => tag.toLowerCase() === search);
-        const usernameMatch = post.username && post.username.toLowerCase().includes(search);
+        const usernameMatch = post.name && post.name.toLowerCase().includes(search);
         return titleMatch || tagMatch || usernameMatch;
       })
     : posts.filter(post => {
         const isSubscribed = sub.some(subscribedName => post.name === subscribedName);
         const titleMatch = post.title && post.title.toLowerCase().includes(search);
         const tagMatch = post.tags && post.tags.some(tag => tag.toLowerCase() === search);
-        const usernameMatch = post.username && post.username.toLowerCase().includes(search);
+        const usernameMatch = post.name && post.name.toLowerCase().includes(search);
         return isSubscribed && (titleMatch || tagMatch || usernameMatch);
       });
 
