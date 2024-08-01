@@ -13,7 +13,6 @@ export default function Index({ username }) {
     const fetchData = async () => {
       try {
         const { data } = await axios.get("/api/uploads");
-        console.log(data);
         setPosts(data);
 
         if (username && username.subscriptions) { 
