@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Chip,  Box,} from "@mui/material";
-import "./VideoPlayer.css"; 
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbUpTwoToneIcon from '@mui/icons-material/ThumbUpTwoTone';
+import { Chip, Box } from "@mui/material";
+import "./VideoPlayer.css";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpTwoToneIcon from "@mui/icons-material/ThumbUpTwoTone";
 export default function VideoPlayer() {
   const { video_id, name, title } = useParams();
   const [userInfo, setUserInfo] = useState("");
@@ -20,7 +20,7 @@ export default function VideoPlayer() {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get("/profile", {
-          withCredentials: true, // Send cookies with the request
+          withCredentials: true,
         });
         const allvids = await axios.get(`/getAllVideos/${video_id}/${name}`);
         const { data } = await axios.get(`/video/${video_id}`);
@@ -48,7 +48,7 @@ export default function VideoPlayer() {
     };
 
     fetchUserProfile();
-  }, [video_id, name, title]);
+  }, [video_id, name, title,like]);
 
   const handleCommentSubmit = async () => {
     try {
@@ -147,14 +147,9 @@ export default function VideoPlayer() {
           </video>
         </div>
         <div className="tags-section">
-          
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
             {uploadInfo[0]?.tags?.map((tag, index) => (
-              <Chip
-                key={index}
-                label={tag}
-                color="primary"
-              />
+              <Chip key={index} label={tag} color="primary" />
             ))}
           </Box>
         </div>
@@ -184,15 +179,27 @@ export default function VideoPlayer() {
               </button>
             )}
 
-            {!like ? (
-              <>
-               <ThumbUpTwoToneIcon fontSize="large" onClick={handleLike} color='primary'/>
-                {uploadInfo.likes}
+            {uploadInfo &&
+              uploadInfo.length > 0 &&
+              (!like ? (
+                <>
+                  <ThumbUpTwoToneIcon
+                    fontSize="large"
+                    onClick={handleLike}
+                    color="primary"
+                  />
+                  {uploadInfo[0].likes}
                 </>
-            ) : (
-             
-                 <ThumbUpIcon fontSize="large" onClick={handleUnlike} color="primary"/> 
-            )}
+              ) : (
+                <>
+                  <ThumbUpIcon
+                    fontSize="large"
+                    onClick={handleUnlike}
+                    color="primary"
+                  />
+                  {uploadInfo[0].likes}
+                </>
+              ))}
           </div>
         </div>
 

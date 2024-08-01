@@ -1,18 +1,16 @@
-/* Header CSS */
 .header {
   background: linear-gradient(to right, #6a11cb, #2575fc);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  box-shadow: 0 2px 4px rgb(0, 0, 0); /* Bottom shadow */
+  box-shadow: 0 2px 4px rgb(0, 0, 0);
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
 }
 
-/* Navigation CSS */
 .nav {
   list-style: none;
   display: flex;
@@ -28,7 +26,6 @@
   margin-right: 0;
 }
 
-/* Logo CSS */
 .logo {
   color: white;
   text-decoration: none;
@@ -36,7 +33,6 @@
   font-weight: bold;
 }
 
-/* Button CSS */
 .button {
   background-color: white;
   color: rgb(8, 8, 132);
@@ -55,7 +51,6 @@
   color: darkblue;
 }
 
-/* Content CSS */
 .content {
-  padding-top: 60px; /* Adjust this value based on the header height */
+  padding-top: 60px; 
 }

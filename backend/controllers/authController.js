@@ -1,16 +1,12 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const db = require("../DB/db");
-const fs = require('fs');
-const path = require('path');
-
-
-
-
+const fs = require("fs");
+const path = require("path");
 
 const register = async (req, res) => {
-  const { email, name, password,about } = req.body;
-  console.log(email,name,password,);
+  const { email, name, password, about } = req.body;
+  console.log(email, name, password);
   if (!name || !email || !password) {
     res.status(400).json({ error: "Fields cannot be empty!" });
     return;
@@ -35,7 +31,7 @@ const register = async (req, res) => {
   try {
     const query =
       "INSERT INTO users (email, name, password,about) VALUES ($1, $2, $3, $4) RETURNING *";
-    const values = [email, name, hashedPassword,about];
+    const values = [email, name, hashedPassword, about];
 
     const { rows } = await db.query(query, values);
 
@@ -70,7 +66,7 @@ const login = async (req, res) => {
     }
     user = rows[0];
     const hashedPassword = user.password;
-    
+
     console.log(user);
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
@@ -81,7 +77,13 @@ const login = async (req, res) => {
     }
 
     jwt.sign(
-      { email: user.email, user_id: user.user_id, name: user.name,subscriptions:user.subscriptions,about:user.about },
+      {
+        email: user.email,
+        user_id: user.user_id,
+        name: user.name,
+        subscriptions: user.subscriptions,
+        about: user.about,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
       (err, token) => {
@@ -112,31 +114,29 @@ const data = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-const getUploads=async(req,res)=>{
-  try{
-    const {rows} = await db.query('select * from uploads')
-    res.json(rows)
-  }catch(err){
+const getUploads = async (req, res) => {
+  try {
+    const { rows } = await db.query("select * from uploads");
+    res.json(rows);
+  } catch (err) {
     console.error("Error executing query", err);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
-
-
-const getProfile=(req, res) => {
+const getProfile = (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, process.env.JWT_SECRET, {}, (err, info) => {
     if (err) console.log(err);
     res.json(info);
   });
-}
+};
 
-const playVideo=(req, res) => {
-  const{user,title}=req.params
-  console.log(user,title);
+const playVideo = (req, res) => {
+  const { user, title } = req.params;
+  console.log(user, title);
 
-  const video = path.resolve(__dirname, '..');
+  const video = path.resolve(__dirname, "..");
 
   const videoPath = path.join(video, `/uploads/${user}/${title}/video.mp4`);
   console.log(videoPath);
@@ -145,107 +145,96 @@ const playVideo=(req, res) => {
   const range = req.headers.range;
 
   if (range) {
-      const parts = range.replace(/bytes=/, "").split("-");
-      const start = parseInt(parts[0], 10);
-      const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+    const parts = range.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
 
-      const chunksize = (end - start) + 1;
-      const file = fs.createReadStream(videoPath, { start, end });
-      const head = {
-          'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-          'Accept-Ranges': 'bytes',
-          'Content-Length': chunksize,
-          'Content-Type': 'video/mp4',
-      };
+    const chunksize = end - start + 1;
+    const file = fs.createReadStream(videoPath, { start, end });
+    const head = {
+      "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": chunksize,
+      "Content-Type": "video/mp4",
+    };
 
-      res.writeHead(206, head);
-      file.pipe(res);
+    res.writeHead(206, head);
+    file.pipe(res);
   } else {
-      const head = {
-          'Content-Length': fileSize,
-          'Content-Type': 'video/mp4',
-      };
-      res.writeHead(200, head);
-      fs.createReadStream(videoPath).pipe(res);
+    const head = {
+      "Content-Length": fileSize,
+      "Content-Type": "video/mp4",
+    };
+    res.writeHead(200, head);
+    fs.createReadStream(videoPath).pipe(res);
   }
-}
+};
 
+const addComment = async (req, res) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+  console.log(id, comment);
 
-
-const addComment=async(req,res)=>{
-  const {id}=(req.params)
-  const {comment}=(req.body)
-  console.log(id,comment);
-  
-
-
-  try{
-    const {rows} = await db.query(`insert into comments (comments,video_id) values ('${comment}','${id}')`)
-    res.json(rows)
-  }catch(err){
+  try {
+    const { rows } = await db.query(
+      `insert into comments (comments,video_id) values ('${comment}','${id}')`
+    );
+    res.json(rows);
+  } catch (err) {
     console.error("Error executing query", err);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+const addLike = async (req, res) => {
+  const { name, id } = req.body;
 
+  try {
+    const { rows } = await db.query(
+      `insert into likes (liked_user,video_id) values ('${name}','${id}')`
+    );
+    await db.query(
+      `update uploads set likes = (select count(*) from likes where video_id=${id}) where video_id=${id};`
+    );
 
-
-}
-const addLike=async(req,res)=>{
-
-  const {name,id}=(req.body)
- 
-  
-
-
-  try{
-    const {rows} = await db.query(`insert into likes (liked_user,video_id) values ('${name}','${id}')`)
-    await db.query(`update uploads set likes = (select count(*) from likes where video_id=${id}) where video_id=${id};`)
-
-    res.json(rows)
-  }catch(err){
+    res.json(rows);
+  } catch (err) {
     console.error("Error executing query", err);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+const unlike = async (req, res) => {
+  const { name, id } = req.body;
+  console.log(name, id);
 
+  try {
+    const { rows } = await db.query(
+      `delete from likes where liked_user = '${name}'`
+    );
+    await db.query(
+      `update uploads set likes = (select count(*) from likes where video_id=${id}) where video_id=${id};`
+    );
 
-
-}
-const unlike=async(req,res)=>{
-  const {name,id}=(req.body)
-  console.log(name,id);
-  
-
-
-  try{
-    const {rows} = await db.query(`delete from likes where liked_user = '${name}'`)
-    await db.query(`update uploads set likes = (select count(*) from likes where video_id=${id}) where video_id=${id};`)
-
-    res.json({message:"record deleted"})
-  }catch(err){
+    res.json({ message: "record deleted" });
+  } catch (err) {
     console.error("Error executing query", err);
-    
+  }
+};
 
-}}
-
-
-const getVideoInfo=async(req,res)=>{
-  const {id}=req.params
+const getVideoInfo = async (req, res) => {
+  const { id } = req.params;
   console.log(id);
 
   try {
     const checkQuery = `select u.*,p.*,c.*,l.* from users u left join uploads p on u.name=p.name left join comments c on p.video_id=c.video_id left join likes l on p.video_id=l.video_id where p.video_id= $1`;
     const checkValues = [id];
-    const {rows} = await db.query(checkQuery, checkValues);
-    res.json({rows});
-
+    const { rows } = await db.query(checkQuery, checkValues);
+    res.json({ rows });
   } catch (err) {
     res.status(500).json({
       error: "Internal server error",
     });
   }
-
-}
-
+};
 
 const subscribe = async (req, res) => {
   const { name, channelName } = req.body;
@@ -309,11 +298,11 @@ const unsubscribe = async (req, res) => {
     const user = rows[0];
     console.log(user);
     jwt.sign(
-      { 
-        email: user.email, 
-        user_id: user.user_id, 
-        name: user.name, 
-        subscriptions: user.subscriptions 
+      {
+        email: user.email,
+        user_id: user.user_id,
+        name: user.name,
+        subscriptions: user.subscriptions,
       },
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
@@ -335,24 +324,22 @@ const unsubscribe = async (req, res) => {
   }
 };
 
-  
-const getAllVideos=async(req,res)=>{
-  const {id,name}=req.params
+const getAllVideos = async (req, res) => {
+  const { id, name } = req.params;
   try {
-    const {rows} = await db.query(`select * from uploads where name ='${name}' and video_id!=${id};`);
-    res.json({rows});
-
+    const { rows } = await db.query(
+      `select * from uploads where name ='${name}' and video_id!=${id};`
+    );
+    res.json({ rows });
   } catch (err) {
     res.status(500).json({
       error: "Internal server error",
     });
   }
-}
+};
 
-
-
-const getData=async (req, res) => {
-  const {name}=req.params
+const getData = async (req, res) => {
+  const { name } = req.params;
   try {
     const { rows } = await db.query(`SELECT * FROM users where name='${name}'`);
     res.json(rows);
@@ -361,4 +348,19 @@ const getData=async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { login,getData, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,addComment,getVideoInfo,addLike,unlike };
+module.exports = {
+  login,
+  getData,
+  getProfile,
+  register,
+  data,
+  getUploads,
+  subscribe,
+  unsubscribe,
+  playVideo,
+  getAllVideos,
+  addComment,
+  getVideoInfo,
+  addLike,
+  unlike,
+};

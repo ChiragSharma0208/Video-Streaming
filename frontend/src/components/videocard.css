@@ -6,10 +6,10 @@
   overflow: hidden;
   width: 300px;
   margin: 16px;
-  margin-top: 9vh; /* Adjust top margin as needed */
+  margin-top: 9vh; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Ensure the position is relative for absolute positioning */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth scaling */
+  position: relative; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .video-card:hover {

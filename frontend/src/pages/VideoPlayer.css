@@ -1,5 +1,3 @@
-/* VideoPlayer.css */
-
 .video-player-container {
     display: flex;
     flex-direction: column;
@@ -138,7 +136,7 @@ button:hover {
     margin: 40px 8px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Align items to the right end */
+    align-items: center; 
 }
 
 .video-thumbnail {
