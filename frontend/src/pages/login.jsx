@@ -10,7 +10,7 @@ export default function Login() {
     user: "",
     password: "",
   });
-  const path="../cover.jpg"
+  const path="../../public/cover.jpg"
 
   const navigate = useNavigate();
 
@@ -65,13 +65,14 @@ export default function Login() {
           Sign In
         </Button>
         <p className="signup">
-          Don't have an account? <a href="/signup">Sign Up</a>
+          Don't have an account? <a href="/signup"><strong>Sign Up</strong></a>
         </p>
       </form>
       <div className="image-container">
        
         
-        <img src={path} alt="Welcome illustration" />
+      <img src="cover.jpg" alt="Welcome illustration"/>
+
       </div>
     </div>
   );

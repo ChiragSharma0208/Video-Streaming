@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import VideoCard from "./videocard.jsx";
-import './index.css'
+import './index.css';
 
 export default function Index({ username }) {
   const [posts, setPosts] = useState([]);
   const [sub, setSub] = useState([]);
   const [flag, setFlag] = useState(true);
   const [search, setSearch] = useState("");
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get("/api/uploads");
-        console.log(data);
         setPosts(data);
 
         if (username && username.subscriptions) { 
@@ -37,6 +37,14 @@ export default function Index({ username }) {
     setSearch(e.target.value.toLowerCase());
   };
 
+  const handleFlagChange = (newFlag) => {
+    setHidden(true);
+    setTimeout(() => {
+      setFlag(newFlag);
+      setHidden(false);
+    }, 500); // Duration of the transition
+  };
+
   const filteredPosts = flag 
     ? posts.filter(post => {
         const titleMatch = post.title && post.title.toLowerCase().includes(search);
@@ -55,8 +63,8 @@ export default function Index({ username }) {
   return (
     <>
       <div className="navbar">
-        <p onClick={() => setFlag(true)} className={flag ? 'active' : ''}><strong>ALL</strong></p>
-        <p onClick={() => setFlag(false)} className={!flag ? 'active' : ''}><strong>SUBSCRIBED</strong></p>
+        <p onClick={() => handleFlagChange(true)} className={flag ? 'active' : ''}><strong>ALL</strong></p>
+        <p onClick={() => handleFlagChange(false)} className={!flag ? 'active' : ''}><strong>SUBSCRIBED</strong></p>
       </div>
 
       <div className="search-bar">
@@ -68,7 +76,7 @@ export default function Index({ username }) {
         />
       </div>
 
-      <div className="parent">
+      <div className={`parent ${hidden ? 'hidden' : ''}`}>
         {filteredPosts.map(post => (
           <VideoCard key={post.id} {...post} />
         ))}

@@ -96,9 +96,9 @@ const VideoUploadForm = () => {
 
     return (
         <Container maxWidth="md">
-            <Typography variant="h4" gutterBottom>
-                Upload Video and Thumbnail
-            </Typography>
+            
+               <h1> Upload Video and Thumbnail</h1>
+            
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
