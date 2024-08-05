@@ -1,8 +1,13 @@
 import React, { useRef, useState, useEffect } from "react"
 import io from "socket.io-client"
+import axios from "axios";
 import "./LiveStreamPage.css"
+import { useNavigate, useParams } from "react-router-dom";
 
 const LiveStreamPage = () => {
+  const {user}=useParams()
+
+  const navigate=useNavigate()
   const videoRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const [peerConnection, setPeerConnection] = useState(null);
@@ -10,8 +15,10 @@ const LiveStreamPage = () => {
 
   useEffect(() => {
     // Initialize Socket.io client
+    
     const socketClient = io("http://localhost:8080");
     setSocket(socketClient);
+    
 
     // Clean up
     return () => {
@@ -49,15 +56,20 @@ const LiveStreamPage = () => {
     }
   }, [socket]);
 
-  const stopStreaming = () => {
+  const stopStreaming = async() => {
+    await axios.post('/api/live', { videoId: user, isLive: false });
+    
+
     if (stream) {
       stream.getTracks().forEach(track => track.stop())
       setStream(null)
+
     }
 
     if (peerConnection) {
       peerConnection.close()
       setPeerConnection(null)
+      navigate(`/`)
     }
   };
 

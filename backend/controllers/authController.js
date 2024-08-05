@@ -357,4 +357,20 @@ const getData=async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { login,getData, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,addComment,getVideoInfo,addLike,unlike };
+
+const markAsLive = async (req, res) => {
+  const { videoId, isLive } = req.body;
+  console.log(videoId);
+  try {
+    const result = await db.query(
+      "UPDATE uploads SET isLive = $1 WHERE name = $2 RETURNING *",
+      [isLive, videoId]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error updating live status", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { login,getData, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,markAsLive,addComment,getVideoInfo,addLike,unlike };

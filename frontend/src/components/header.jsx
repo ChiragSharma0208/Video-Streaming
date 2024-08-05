@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function Header(user) {
   const [username, setUsername] = useState(null);
+  const navigate=useNavigate()
 
   useEffect(() => {
   
@@ -21,6 +22,12 @@ export default function Header(user) {
     
   }, [user]);
   
+  const handleLive=async()=>{
+    
+    await axios.post('/api/live', { videoId: username.name, isLive: true });
+    navigate(`/live/${username.name}`)
+
+  }
   const logout = async () => {
     try {
       await axios.post("/logout", {
@@ -50,7 +57,7 @@ export default function Header(user) {
           </Link>
         </li>
         <li>
-          <Link to={`/live/${username.name}`} className="button">
+          <Link onClick={handleLive} className="button">
             Go Live
           </Link>
         </li>

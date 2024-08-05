@@ -83,12 +83,13 @@ export default function Index({ username }) {
       </div>
 
       {/* Live Stream Card */}
-      {posts.some(post => post.isLive) && (
+      {posts.some(post=>post.islive) && (
         <div className="live-card">
           <h2>Live Now!</h2>
           <p>Check out the live streams below:</p>
-          {posts.filter(post => post.isLive).map(post => (
-            <VideoCard key={post.id} {...post} />
+          {posts.filter(post => post.islive).map(post => (
+          <>{post.name}</>
+            
           ))}
         </div>
       )}

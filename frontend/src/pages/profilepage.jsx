@@ -21,7 +21,7 @@ export default function ProfilePage() {
         setUsername(response.data);
         console.log(response.data);
         setMorevids(allvids.data.rows);
-        console.log(allvids.data.rows); // Make sure this logs the expected data structure
+        console.log(allvids.data.rows); 
       } catch (error) {
         console.error("Error fetching data:", error);
       }
