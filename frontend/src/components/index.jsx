@@ -16,10 +16,10 @@ export default function Index({ username }) {
         const { data } = await axios.get("/api/uploads");
         setPosts(data);
 
-        if (username && username.subscriptions) { 
+        if (username && username.subscriptions) {
           setSub(username.subscriptions);
         } else {
-          setSub([]); 
+          setSub([]);
         }
       } catch (err) {
         console.log(err);
@@ -42,7 +42,7 @@ export default function Index({ username }) {
     setTimeout(() => {
       setFlag(newFlag);
       setHidden(false);
-    }, 500); // Duration of the transition
+    }, 500); 
   };
 
   const filteredPosts = flag 
@@ -81,6 +81,17 @@ export default function Index({ username }) {
           <VideoCard key={post.id} {...post} />
         ))}
       </div>
+
+      {/* Live Stream Card */}
+      {posts.some(post => post.isLive) && (
+        <div className="live-card">
+          <h2>Live Now!</h2>
+          <p>Check out the live streams below:</p>
+          {posts.filter(post => post.isLive).map(post => (
+            <VideoCard key={post.id} {...post} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

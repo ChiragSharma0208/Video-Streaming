@@ -9,7 +9,7 @@ export default function Login() {
   const [data, setData] = useState({
     user: "",
     password: "",
-  })
+  });
 
   const navigate = useNavigate();
 
@@ -20,20 +20,20 @@ export default function Login() {
       const { data } = await axios.post("/login", {
         email: user,
         password: password,
-      })
+      });
 
       if (data.error) {
         toast.error(data.error);
       } else {
-        setData({})
-        toast.success("Logged in successfully")
-        navigate("/")
+        setData({});
+        toast.success("Logged in successfully");
+        navigate("/");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error("Username or Password Incorrect")
     }
-  }
+  };
 
   return (
     <div className="form-container">
@@ -42,7 +42,7 @@ export default function Login() {
         <TextField
           type="email"
           id="filled-basic"
-          label="E-mail"
+          label="Username"
           margin="normal"
           variant="filled"
           value={data.user}
@@ -64,7 +64,7 @@ export default function Login() {
           Sign In
         </Button>
         <p className="signup">
-          Don't have an account? <a href="/signup"><strong>Sign Up</strong></a>
+          Don't have an account? <a href="/signup">Sign Up</a>
         </p>
       </form>
       <div className="image-container">
@@ -74,5 +74,5 @@ export default function Login() {
 
       </div>
     </div>
-  )
+  );
 }

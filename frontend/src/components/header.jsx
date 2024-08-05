@@ -8,19 +8,17 @@ export default function Header(user) {
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
+  
       try {
         if (user.username) {
           console.log(user.username);
           setUsername(user.username);
         }
-  // Assuming userData is an object with username property
+  
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
-    };
-
-    fetchUser();
+    
   }, [user]);
   
   const logout = async () => {
@@ -49,6 +47,11 @@ export default function Header(user) {
           <li>
           <Link to="/upload" className="button">
             Upload
+          </Link>
+        </li>
+        <li>
+          <Link to={`/live/${username.name}`} className="button">
+            Go Live
           </Link>
         </li>
           

@@ -5,6 +5,7 @@ import axios from "axios";
 import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import Signup from "./pages/signup.jsx";
+import LiveStreamPage from "./pages/LiveStreamPage.jsx";
 import VideoPlayer from "./pages/videoplayer.jsx";
 import ProfilePage from "./pages/profilepage.jsx";
 import VideoUploadForm from './components/videoUploadForm.jsx';
@@ -30,6 +31,7 @@ function App() {
           <Route path="/upload" element={< VideoUploadForm/>}></Route>
           <Route path="/play/:video_id/:name/:title" element={< VideoPlayer/>}></Route>
           <Route path="/profile/:name" element={< ProfilePage/>}></Route>
+          <Route path="/live/:user" element={<LiveStreamPage />}></Route>
           </Routes>
         </AuthProvider>
 

@@ -1,6 +1,6 @@
 import PersonIcon from "@mui/icons-material/Person";
 import "./profilepage.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import VideoCard from "../components/videocard.jsx";
 
 import axios from "axios";
