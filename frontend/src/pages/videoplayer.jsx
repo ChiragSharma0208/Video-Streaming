@@ -5,10 +5,13 @@ import { Chip, Box } from "@mui/material";
 import "./VideoPlayer.css";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpTwoToneIcon from "@mui/icons-material/ThumbUpTwoTone";
+
 export default function VideoPlayer() {
   const { video_id, name, title } = useParams();
   const [userInfo, setUserInfo] = useState("");
   const [newComment, setNewComment] = useState("");
+  const [editComment, setEditComment] = useState("");
+  const [editCommentId, setEditCommentId] = useState(null);
   const [uploadInfo, setUploadInfo] = useState([]);
   const [like, setLike] = useState(false);
   const [sub, setSub] = useState(false);
@@ -26,10 +29,7 @@ export default function VideoPlayer() {
         const { data } = await axios.get(`/video/${video_id}`);
 
         setMorevids(allvids.data.rows);
-        console.log(data.rows);
-
         setUploadInfo(data.rows);
-
         setUserInfo(response.data);
 
         response.data.subscriptions.forEach((element) => {
@@ -48,21 +48,39 @@ export default function VideoPlayer() {
     };
 
     fetchUserProfile();
-  }, [video_id, name, title,like]);
+  }, [video_id, name, title, like]);
 
   const handleCommentSubmit = async () => {
     try {
       const { data } = await axios.post(`/comment/${video_id}`, {
         comment: newComment,
+        user_id: userInfo.user_id,
       });
 
       if (data.error) {
         alert(data.error);
       } else {
-        console.log("COMMENT ADDED");
         setNewComment("");
         const { data } = await axios.get(`/video/${video_id}`);
+        setUploadInfo(data.rows);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const handleEditComment = async () => {
+    try {
+      const { data } = await axios.patch(`/comment/${editCommentId}`, {
+        comment: editComment,
+      });
+
+      if (data.error) {
+        alert(data.error);
+      } else {
+        setEditComment("");
+        setEditCommentId(null);
+        const { data } = await axios.get(`/video/${video_id}`);
         setUploadInfo(data.rows);
       }
     } catch (error) {
@@ -222,7 +240,31 @@ export default function VideoPlayer() {
             .reverse()
             .map((post, index) => (
               <div key={index} className="comment">
-                <p>{`"${post.comments}"`}</p>
+                <div className="comment-content">
+                  <p>{`"${post.comments}"`}</p>
+                  <p className="timestamp">{`Posted at: ${new Date(post.created_at).toLocaleString()}`}</p>
+                </div>
+                {userInfo.user_id === post.user_id && (
+                  <button
+                    className="edit-button"
+                    onClick={() => {
+                      setEditComment(post.comments);
+                      setEditCommentId(post.c_id);
+                    }}
+                  >
+                    Edit
+                  </button>
+                )}
+                {editCommentId === post.c_id && (
+                  <div className="edit-section">
+                    <textarea
+                      value={editComment}
+                      onChange={(e) => setEditComment(e.target.value)}
+                    ></textarea>
+                    <button onClick={handleEditComment}>Save</button>
+                    <button onClick={() => setEditCommentId(null)}>Cancel</button>
+                  </div>
+                )}
               </div>
             ))}
         </div>
@@ -235,7 +277,6 @@ export default function VideoPlayer() {
             key={`${video.video_id}-${video.title}`}
             onClick={() => {
               navigate(`/play/${video.video_id}/${video.name}/${video.title}`);
-
               window.location.reload();
             }}
             className="video-thumbnail"

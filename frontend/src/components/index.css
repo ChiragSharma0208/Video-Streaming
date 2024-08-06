@@ -83,3 +83,38 @@
 .search-bar input::placeholder {
   color: #aaa;
 }
+/* LiveStreamPage.css or your component-specific CSS file */
+
+.live-card {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.live-card h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.live-card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.live-card div {
+  font-size: 18px;
+  color: #e53935; 
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.live-card div:last-child {
+  border-bottom: none;
+}

@@ -2,6 +2,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import "./profilepage.css";
 import React, { useEffect, useState } from "react";
 import VideoCard from "../components/videocard.jsx";
+import Chat from "../components/Chat.jsx";
 
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -10,11 +11,16 @@ export default function ProfilePage() {
   const { name } = useParams();
   const [username, setUsername] = useState(null);
   const [morevids, setMorevids] = useState([]);
+  
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         const response = await axios.get(`/profile/${name}`, {
+          withCredentials: true,
+        });
+        const {data} = await axios.get("/profile", {
           withCredentials: true,
         });
         const allvids = await axios.get(`/getAllVideos/0/${name}`);
@@ -56,7 +62,9 @@ export default function ProfilePage() {
               ))}
             </div>
           </div>
+          <Chat username={username} receiver={name}/>
         </>
+        
       )}
     </div>
   );

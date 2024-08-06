@@ -6,9 +6,11 @@ import Home from "./pages/home.jsx";
 import Login from "./pages/login.jsx";
 import Signup from "./pages/signup.jsx";
 import LiveStreamPage from "./pages/LiveStreamPage.jsx";
+import LiveStreamViewer from "./pages/LiveStreamViewer.jsx";
 import VideoPlayer from "./pages/videoplayer.jsx";
 import ProfilePage from "./pages/profilepage.jsx";
 import VideoUploadForm from './components/videoUploadForm.jsx';
+import Chat from './components/Chat.jsx';
 
 import { AuthProvider } from './components/authContext';
 
@@ -32,6 +34,8 @@ function App() {
           <Route path="/play/:video_id/:name/:title" element={< VideoPlayer/>}></Route>
           <Route path="/profile/:name" element={< ProfilePage/>}></Route>
           <Route path="/live/:user" element={<LiveStreamPage />}></Route>
+          <Route path="/view/:user" element={<LiveStreamViewer/>}></Route>
+          <Route path="/live/chat/:name" element={<Chat />}></Route>
           </Routes>
         </AuthProvider>
 

@@ -14,7 +14,14 @@ const port = 8080;
 
 // Create HTTP server and integrate with Socket.io
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true
+  }
+});
 
 // WebRTC signaling setup
 io.on("connection", (socket) => {
@@ -22,6 +29,11 @@ io.on("connection", (socket) => {
 
   socket.on("offer", (offer) => {
     socket.broadcast.emit("offer", offer);
+  });
+  
+  socket.on("join-stream", ({ user }) => {
+    socket.join(user);
+    console.log(`Joined stream: ${user}`);
   });
 
   socket.on("answer", (answer) => {
@@ -37,19 +49,18 @@ io.on("connection", (socket) => {
   });
 });
 
-const corsOption = {
-  origin: ["http://localhost:3000"],
+// CORS setup for Express
+app.use(cors({
+  origin: "http://localhost:3000",
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-};
-app.use(cors(corsOption));
-app.use(cookieParser());
+}));
 
+app.use(cookieParser());
+ 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/", authRoutes);
 app.use(express.static(path.join(__dirname, ".")));
-
 
 // API endpoints
 app.get("/ping", (req, res) => res.send("pong !!"));

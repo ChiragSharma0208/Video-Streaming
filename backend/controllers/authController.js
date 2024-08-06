@@ -168,24 +168,29 @@ const playVideo=(req, res) => {
 
 
 
-const addComment=async(req,res)=>{
-  const {id}=(req.params)
-  const {comment}=(req.body)
-  console.log(id,comment);
-  
+const addComment = async (req, res) => {
+  const { id } = req.params;
+  const { comment,user_id } = req.body;
+  console.log(comment,user_id);
 
-
-  try{
-    const {rows} = await db.query(`insert into comments (comments,video_id) values ('${comment}','${id}')`)
-    res.json(rows)
-  }catch(err){
-    console.error("Error executing query", err);
-    res.status(500).json({ error: "Internal server error" });
+  if (!comment) {
+    return res.status(400).json({ error: 'Comment cannot be empty' });
   }
 
+  try {
+    const { rows } = await db.query(
+      `INSERT INTO comments (comments, video_id, user_id, created_at, updated_at)
+       VALUES ($1, $2, $3 ,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+       RETURNING *`,
+      [comment, id,user_id]
+    );
+    res.status(201).json({ success: 'Comment added', data: rows[0] });
+  } catch (err) {
+    console.error("Error executing query", err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
-
-}
 const addLike=async(req,res)=>{
 
   const {name,id}=(req.body)
@@ -373,4 +378,32 @@ const markAsLive = async (req, res) => {
   }
 };
 
-module.exports = { login,getData, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,markAsLive,addComment,getVideoInfo,addLike,unlike };
+const editComment = async (req, res) => {
+    const commentId = parseInt(req.params.id, 10);
+    const { comment } = req.body;
+  
+    if (!comment) {
+      return res.status(400).json({ error: 'Comment cannot be empty' });
+    }
+  
+    try {
+      const result = await db.query(
+        `UPDATE comments
+         SET comments = $1, updated_at = CURRENT_TIMESTAMP
+         WHERE c_id = $2
+         RETURNING *`,
+        [comment, commentId]
+      );
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Comment not found' });
+      }
+  
+      res.status(200).json({ success: 'Comment updated', data: result.rows[0] });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+module.exports = { login,getData, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,editComment,markAsLive,addComment,getVideoInfo,addLike,unlike };

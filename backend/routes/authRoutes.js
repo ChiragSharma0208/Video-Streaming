@@ -20,6 +20,7 @@ const {
   getAllVideos,
   getData,
   markAsLive,
+  editComment
 } = require("../controllers/authController");
 
 const storage = multer.diskStorage({
@@ -67,6 +68,7 @@ router.post("/like", addLike);
 router.post("/unlike", unlike);
 router.get("/video/:id", getVideoInfo);
 router.get("/getAllVideos/:id/:name", getAllVideos);
+router.patch("/comment/:id",editComment)
 router.post("/api/upload", (req, res) => {
   upload(req, res, async function (err) {
     console.log("FormData fields:", req.body);

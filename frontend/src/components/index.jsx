@@ -60,6 +60,12 @@ export default function Index({ username }) {
         return isSubscribed && (titleMatch || tagMatch || usernameMatch);
       });
 
+      const uniqueLivePosts = Array.from(new Set(
+        posts
+          .filter(post => post.islive)   
+          .map(post => post.name)         
+      ));
+
   return (
     <>
       <div className="navbar">
@@ -83,13 +89,12 @@ export default function Index({ username }) {
       </div>
 
       {/* Live Stream Card */}
-      {posts.some(post=>post.islive) && (
+      {uniqueLivePosts.length > 0 && (
         <div className="live-card">
           <h2>Live Now!</h2>
           <p>Check out the live streams below:</p>
-          {posts.filter(post => post.islive).map(post => (
-          <>{post.name}</>
-            
+          {uniqueLivePosts.map((name, index) => (
+            <div key={index}>{name} is Live </div>
           ))}
         </div>
       )}

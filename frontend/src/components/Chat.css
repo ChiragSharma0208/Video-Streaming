@@ -1,0 +1,39 @@
+.chat-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .message-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  
+  .message {
+    padding: 5px;
+    margin: 5px 0;
+  }
+  
+  .message.sent {
+    text-align: right;
+    background-color: #f1f1f1;
+  }
+  
+  .message.received {
+    text-align: left;
+    background-color: #e1f5fe;
+  }
+  
+  .message-form textarea {
+    width: calc(100% - 22px);
+    margin-right: 10px;
+  }
+  
+  .message-form button {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
