@@ -61,7 +61,11 @@ export default function Header(user) {
             Go Live
           </Link>
         </li>
-          
+        <li>
+          <Link to={`/chat/${username.name}`}  className="button">
+            Messages
+          </Link>
+        </li>
           <li>
             <Link onClick={logout} className="button">
               Logout

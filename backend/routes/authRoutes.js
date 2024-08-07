@@ -20,7 +20,8 @@ const {
   getAllVideos,
   getData,
   markAsLive,
-  editComment
+  editComment,
+  getMessages
 } = require("../controllers/authController");
 
 const storage = multer.diskStorage({
@@ -106,6 +107,7 @@ router.post("/api/upload", (req, res) => {
 });
 
 router.post("/api/live", markAsLive);
+router.get("/messages/:name",getMessages)
 
 router.post("/logout", (req, res) => {
   res.clearCookie("token");

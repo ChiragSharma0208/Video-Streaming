@@ -1,22 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
-import "./Chat.css";
+import axios from "axios";
+import './Chat.css';
+import { useParams } from "react-router-dom";
 
-export default function Chat({ username, receiver }) {
+const DM = () => {
   const [socket, setSocket] = useState(null);
-  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [recipient, setRecipient] = useState("");
+  const [filteredMessages, setFilteredMessages] = useState([]);
+  const { name } = useParams();
+  const username = name;
+  const [recipients, setRecipients] = useState([]);
 
   useEffect(() => {
     const socketClient = io("http://localhost:8080");
     setSocket(socketClient);
+    socketClient.emit("register", username);
 
-    socketClient.emit('joinRoom', username);
+    axios.get(`http://localhost:8080/messages/${name}`)
+      .then(response => {
+        const data = response.data;
+        setMessages(data);
+        extractRecipients(data);
+      })
+      .catch(error => {
+        console.error("Error fetching messages:", error);
+      });
 
-    socketClient.on('newMessage', (data) => {
-      if (data.to === username || data.from === username) {
-        setMessages((prevMessages) => [...prevMessages, data]);
-      }
+    socketClient.on("receiveMessage", (data) => {
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages, data];
+        extractRecipients(newMessages);
+        return newMessages;
+      });
     });
 
     return () => {
@@ -24,37 +42,86 @@ export default function Chat({ username, receiver }) {
     };
   }, [username]);
 
+  const extractRecipients = (messages) => {
+    const uniqueRecipients = [...new Set(
+      messages.flatMap(msg => [msg.to, msg.from])
+        .filter(user => user !== username)
+    )];
+    setRecipients(uniqueRecipients);
+  };
+
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (socket) {
-      socket.emit('sendMessage', {
-        from: username,
-        to: receiver,
-        message: message,
+      socket.emit("sendMessage", { to: recipient, message, from: username });
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages, { message, from: username, to: recipient }];
+        extractRecipients(newMessages);
+        return newMessages;
       });
-      setMessage(""); // Clear the input after sending
+      setMessage("");
     }
   };
 
+  const handleRecipientClick = (rec) => {
+    setRecipient(rec);
+    filterMessages(rec);
+  };
+
+  const filterMessages = (rec) => {
+    const filtered = messages.filter(
+      msg => (msg.from === rec && msg.to === username) || (msg.from === username && msg.to === rec)
+    );
+    setFilteredMessages(filtered);
+  };
+
+  useEffect(() => {
+    if (recipient) {
+      filterMessages(recipient);
+    }
+  }, [messages, recipient]);
+
   return (
-    <div className="chat-container">
-      <div className="message-list">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.from === username ? 'sent' : 'received'}`}>
-            <strong>{msg.from}:</strong> {msg.message}
-          </div>
-        ))}
+    <div className="dm-container">
+      <div className="sidebar">
+        <h3>Recipients</h3>
+        <ul>
+          {recipients.map((rec, index) => (
+            <li key={index} className={`recipient ${rec === recipient ? 'active' : ''}`} onClick={() => handleRecipientClick(rec)}>
+              {rec}
+            </li>
+          ))}
+        </ul>
       </div>
-      <form onSubmit={handleSendMessage} className="message-form">
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Write your message here..."
-          rows="4"
-          cols="50"
-        />
-        <button type="submit">Send</button>
-      </form>
+      <div className="chat-area">
+        <div className="chat-header">
+          <h3>{recipient}</h3>
+        </div>
+        <div className="messages">
+          {filteredMessages.map((msg, index) => (
+            <div key={index} className={`message ${msg.from === username ? 'sent' : 'received'}`}>
+              <span>{msg.message}</span>
+            </div>
+          ))}
+        </div>
+        <form onSubmit={handleSendMessage} className="message-form">
+          <input
+            type="text"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="Recipient username"
+          />
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type a message"
+            rows="4"
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
   );
-}
+};
+
+export default DM;

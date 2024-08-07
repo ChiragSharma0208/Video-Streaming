@@ -406,4 +406,20 @@ const editComment = async (req, res) => {
     }
   }
 
-module.exports = { login,getData, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,editComment,markAsLive,addComment,getVideoInfo,addLike,unlike };
+  const getMessages = async (req, res) => {
+    const { name } = req.params;
+    console.log(name);
+  
+    try {
+      const result = await db.query(`SELECT * FROM messages WHERE "from" = $1  or "to"=$1`, [name]);
+      console.log(result.rows);
+      res.json(result.rows);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        error: "Internal server error",
+      });
+    }
+  };
+
+module.exports = { login,getData,getMessages, getProfile,register,data,getUploads,subscribe,unsubscribe,playVideo,getAllVideos,editComment,markAsLive,addComment,getVideoInfo,addLike,unlike };

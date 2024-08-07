@@ -2,7 +2,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import "./profilepage.css";
 import React, { useEffect, useState } from "react";
 import VideoCard from "../components/videocard.jsx";
-import Chat from "../components/Chat.jsx";
+import DM from "../components/Chat.jsx";
 
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -62,7 +62,7 @@ export default function ProfilePage() {
               ))}
             </div>
           </div>
-          <Chat username={username} receiver={name}/>
+          <DM username={username} receiver={name}/>
         </>
         
       )}

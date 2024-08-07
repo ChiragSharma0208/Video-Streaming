@@ -35,7 +35,7 @@ function App() {
           <Route path="/profile/:name" element={< ProfilePage/>}></Route>
           <Route path="/live/:user" element={<LiveStreamPage />}></Route>
           <Route path="/view/:user" element={<LiveStreamViewer/>}></Route>
-          <Route path="/live/chat/:name" element={<Chat />}></Route>
+          <Route path="/chat/:name" element={<Chat />}></Route>
           </Routes>
         </AuthProvider>
 

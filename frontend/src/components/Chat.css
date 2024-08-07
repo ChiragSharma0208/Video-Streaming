@@ -1,39 +1,108 @@
-.chat-container {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .message-list {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-  }
-  
-  .message {
-    padding: 5px;
-    margin: 5px 0;
-  }
-  
-  .message.sent {
-    text-align: right;
-    background-color: #f1f1f1;
-  }
-  
-  .message.received {
-    text-align: left;
-    background-color: #e1f5fe;
-  }
-  
-  .message-form textarea {
-    width: calc(100% - 22px);
-    margin-right: 10px;
-  }
-  
-  .message-form button {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
+.dm-container {
+  display: flex;
+  height: 100vh;
+  background: #f1f5f9;
+}
+
+.sidebar {
+  width: 300px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e0e0e0;
+  padding: 20px;
+}
+
+.sidebar h3 {
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recipient {
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.recipient.active {
+  background: #e0e0e0;
+}
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 60%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+
+.message.sent {
+  background: #d1f7c4;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.message.received {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  align-self: flex-start;
+  text-align: left;
+}
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+}
+
+.message-form input {
+  border: none;
+  border-radius: 25px;
+  padding: 10px;
+  background: #f1f5f9;
+  margin-bottom: 10px;
+}
+
+.message-form textarea {
+  border: none;
+  border-radius: 25px;
+  padding: 10px;
+  background: #f1f5f9;
+  margin-bottom: 10px;
+  resize: none;
+}
+
+.message-form button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
