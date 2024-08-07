@@ -257,13 +257,16 @@ export default function VideoPlayer() {
                 )}
                 {editCommentId === post.c_id && (
                   <div className="edit-section">
-                    <textarea
-                      value={editComment}
-                      onChange={(e) => setEditComment(e.target.value)}
-                    ></textarea>
-                    <button onClick={handleEditComment}>Save</button>
-                    <button onClick={() => setEditCommentId(null)}>Cancel</button>
+                  <textarea
+                    className="edit-comment-box"
+                    value={editComment}
+                    onChange={(e) => setEditComment(e.target.value)}
+                  ></textarea>
+                  <div className="edit-buttons">
+                    <button className="save-btn" onClick={handleEditComment}>Save</button>
+                    <button className="cancel-btn" onClick={() => setEditCommentId(null)}>Cancel</button>
                   </div>
+                </div>
                 )}
               </div>
             ))}
