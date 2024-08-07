@@ -67,12 +67,7 @@ export default function Login() {
           Don't have an account? <a href="/signup">Sign Up</a>
         </p>
       </form>
-      <div className="image-container">
-       
-        
-      <img src="cover.jpg" alt="Welcome illustration"/>
-
-      </div>
+      
     </div>
   );
 }

@@ -66,24 +66,25 @@
 .search-bar input {
   width: 100%;
   max-width: 500px;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border: 2px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .search-bar input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0,123,255,0.2);
+  border-color: #6C63FF;
+  box-shadow: 0 0 8px rgba(108,99,255,0.3);
   outline: none;
+  transform: scale(1.02);
 }
 
 .search-bar input::placeholder {
   color: #aaa;
 }
-/* LiveStreamPage.css or your component-specific CSS file */
+
 
 .live-card {
   background-color: #f0f0f0;

@@ -86,6 +86,9 @@ export default function Signup() {
         <Button sx={{ mt: 2 }} type="submit" variant="contained">
           Submit
         </Button>
+        <p className="signup">
+          Already have an account? <a href="/login">Login</a>
+        </p>
       </form>
     </div>
   );

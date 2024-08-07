@@ -1,15 +1,19 @@
 .form-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 0 50px;
-  background-color: #f9f9f9;
+  background: url('../../public/cover.jpg') no-repeat center center fixed;
+  background-size: cover;
 }
 
 .styled-form {
   max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .styled-form h1 {
@@ -33,28 +37,6 @@
   background-color: #5750d1;
 }
 
-.remember-forgot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-  color: #333;
-}
-
-.remember-forgot label {
-  display: flex;
-  align-items: center;
-}
-
-.remember-forgot a {
-  color: #6C63FF;
-  text-decoration: none;
-}
-
-.remember-forgot a:hover {
-  text-decoration: underline;
-}
-
 .signup {
   text-align: center;
   margin-top: 20px;
@@ -69,15 +51,3 @@
   text-decoration: underline;
 }
 
-.image-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.image-container img {
-  max-width: 100%;
-  height: auto;
-}
