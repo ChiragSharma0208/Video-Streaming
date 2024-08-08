@@ -23,6 +23,9 @@ const {
   editComment,
   getMessages
 } = require("../controllers/authController");
+const authenticateToken = require("../middleware/authMiddleware");
+const { validateRegister, validateLogin } = require("../middleware/validationMiddleware");
+const errorHandler = require("../middleware/errorHandler");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -55,12 +58,15 @@ router.use(
   })
 );
 
+
+router.post("/register", validateRegister, register);
+router.post("/login", validateLogin, login);
+
+router.use(authenticateToken); 
 router.get("/api/uploads", getUploads);
 router.post("/subscribe", subscribe);
 router.patch("/unsubscribe", unsubscribe);
 router.get("/play/:user/:title", playVideo);
-router.post("/register", register);
-router.post("/login", login);
 router.post("/data", data);
 router.get("/profile", getProfile);
 router.get("/profile/:name", getData);
@@ -69,7 +75,7 @@ router.post("/like", addLike);
 router.post("/unlike", unlike);
 router.get("/video/:id", getVideoInfo);
 router.get("/getAllVideos/:id/:name", getAllVideos);
-router.patch("/comment/:id",editComment)
+router.patch("/comment/:id", editComment);
 router.post("/api/upload", (req, res) => {
   upload(req, res, async function (err) {
     console.log("FormData fields:", req.body);
@@ -107,11 +113,13 @@ router.post("/api/upload", (req, res) => {
 });
 
 router.post("/api/live", markAsLive);
-router.get("/messages/:name",getMessages)
+router.get("/messages/:name", getMessages);
 
 router.post("/logout", (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
 });
+
+router.use(errorHandler);
 
 module.exports = router;

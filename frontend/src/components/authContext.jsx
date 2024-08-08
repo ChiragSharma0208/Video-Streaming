@@ -1,29 +1,55 @@
+// src/components/authContext.jsx
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
-import React, { createContext, useState } from 'react';
+export const AuthContext = createContext();
 
-const AuthContext = createContext();
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-const AuthProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userData, setUserData] = useState(null); // You can store user info here
-
-    const login = (userData) => {
-        setIsLoggedIn(true);
-        setUserData(userData);
-        // You might want to save tokens or other data to localStorage or sessionStorage
+  useEffect(() => {
+    // Fetch user profile on mount
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get('/profile', { withCredentials: true });
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
     };
 
-    const logout = () => {
-        setIsLoggedIn(false);
-        setUserData(null);
-        // Clear localStorage or sessionStorage
-    };
+    fetchUserProfile();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post('/login', { email, password }, { withCredentials: true });
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        setUser(response.data); // Update user state
+        toast.success('Logged in successfully');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      toast.error('Username or Password Incorrect');
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await axios.post('/logout', {}, { withCredentials: true });
+      setUser(null); // Clear user state
+      toast.success('Logged out successfully');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-export { AuthContext, AuthProvider }

@@ -3,6 +3,7 @@
     justify-content: space-around;
     flex-wrap: wrap;
     margin: 20px;
+    margin-top: 60px;
   }
 
   .video-player-container {

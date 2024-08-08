@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 
-// Create a new pool instance
 const dotenv = require("dotenv");
 const pool = new Pool({
   user: process.env.USER,

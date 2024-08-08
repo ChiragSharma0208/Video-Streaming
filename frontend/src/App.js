@@ -11,9 +11,10 @@ import VideoPlayer from "./pages/videoplayer.jsx";
 import ProfilePage from "./pages/profilepage.jsx";
 import VideoUploadForm from './components/videoUploadForm.jsx';
 import Chat from './components/Chat.jsx';
+import Pricing from "./pages/Pricing.jsx";
 
 import { AuthProvider } from './components/authContext';
-
+import Header from "./components/header.jsx";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -23,23 +24,22 @@ axios.defaults.headers.post["Access-Control-Allow-Headers "] = "*";
 
 function App() {
   return (
-    <><AuthProvider>      
-     <Toaster position="top-left" toastOptions={{ duration: 3000 }} />
-
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/upload" element={< VideoUploadForm/>}></Route>
-          <Route path="/play/:video_id/:name/:title" element={< VideoPlayer/>}></Route>
-          <Route path="/profile/:name" element={< ProfilePage/>}></Route>
-          <Route path="/live/:user" element={<LiveStreamPage />}></Route>
-          <Route path="/view/:user" element={<LiveStreamViewer/>}></Route>
-          <Route path="/chat/:name" element={<Chat />}></Route>
-          </Routes>
-        </AuthProvider>
-
-    </>
+    <AuthProvider>
+      <Toaster position="top-left" toastOptions={{ duration: 3000 }} />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/upload" element={<VideoUploadForm />} />
+        <Route path="/play/:video_id/:name/:title" element={<VideoPlayer />} />
+        <Route path="/profile/:name" element={<ProfilePage />} />
+        <Route path="/live/:user" element={<LiveStreamPage />} />
+        <Route path="/view/:user" element={<LiveStreamViewer />} />
+        <Route path="/chat/:name" element={<Chat />} />
+        <Route path="/subscription" element={<Pricing />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 

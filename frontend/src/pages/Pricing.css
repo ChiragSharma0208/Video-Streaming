@@ -1,0 +1,136 @@
+
+.pricing-container {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  max-width: 900px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toggle-buttons {
+  margin: 20px 0;
+}
+
+.toggle-button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toggle-button:hover,
+.toggle-button.active {
+  background-color: #6200ea;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.plans {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.plan {
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+  background-color: #fafafa;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideIn 1s ease-in-out;
+}
+
+.plan:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.plan h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.price {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #6200ea;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.plan ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin: 0;
+  animation: listFadeIn 1s ease-in-out;
+}
+
+.plan ul li {
+  margin: 10px 0;
+  color: #333;
+}
+
+@keyframes listFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.buttonp {
+  background-color: #6200ea;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 16px;
+}
+
+.buttonp:hover {
+  background-color: #4500b0;
+  transform: scale(1.05);
+}

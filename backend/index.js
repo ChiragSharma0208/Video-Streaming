@@ -13,7 +13,6 @@ const db=require("./DB/db")
 const app = express();
 const port = 8080;
 
-// Create HTTP server and integrate with Socket.io
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
@@ -24,29 +23,23 @@ const io = socketIo(server, {
   }
 });
 
-// PostgreSQL connection setup
-
-// Store connected users
 const users = {};
 
-// WebRTC signaling setup
 io.on("connection", (socket) => {
   console.log("New client connected");
 
-  // Register user when they join
   socket.on("register", (username) => {
     users[username] = socket.id;
     console.log(`User registered: ${username}`);
   });
 
-  // Handle direct messages and store them in the database
   socket.on("sendMessage", async (data) => {
     const { to, message, from } = data;
     const receiverSocketId = users[to];
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("receiveMessage", { message, from });
     }
-    // Store the message in the database
+
     try {
       await db.query(
         `INSERT INTO messages ("from", "to", message, time) VALUES ($1, $2, $3, NOW())`,
@@ -58,7 +51,6 @@ io.on("connection", (socket) => {
     }
   });
 
-  // WebRTC signaling setup
   socket.on("offer", (offer) => {
     socket.broadcast.emit("offer", offer);
   });
@@ -77,7 +69,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    // Remove user when they disconnect
+
     for (const [username, id] of Object.entries(users)) {
       if (id === socket.id) {
         delete users[username];
@@ -89,7 +81,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// CORS setup for Express
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true,
@@ -101,11 +92,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", authRoutes);
 app.use(express.static(path.join(__dirname, ".")));
 
-// API endpoints
 app.get("/ping", (req, res) => res.send("pong !!"));
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-// Start server
 server.listen(port, () =>
   console.log(`Video stream app listening on port ${port}!`)
 );

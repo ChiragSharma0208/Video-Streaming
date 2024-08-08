@@ -1,88 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from './authContext';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 import "./header.css";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
 
-export default function Header(user) {
-  const [username, setUsername] = useState(null);
-  const navigate=useNavigate()
+export default function Header() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-  
-      try {
-        if (user.username) {
-          console.log(user.username);
-          setUsername(user.username);
-        }
-  
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    
-  }, [user]);
-  
-  const handleLive=async()=>{
-    
-    await axios.post('/api/live', { videoId: username.name, isLive: true });
-    navigate(`/live/${username.name}`)
-
-  }
-  const logout = async () => {
-    try {
-      await axios.post("/logout", {
-        withCredentials: true,
-      });
-      setUsername(null);
-      toast.success("Looged out successfully")
-      
-    } catch (error) {
-      console.error("Error fetching data:", error);
+  const handleLive = async () => {
+    // Ensure user is logged in before allowing live streaming
+    if (user) {
+      await axios.post('/api/live', { videoId: user.name, isLive: true });
+      navigate(`/live/${user.name}`);
+    } else {
+      toast.error('You need to be logged in to go live');
     }
   };
+
   return (
     <header className="header">
       <ul className="nav">
         <li>
-          <Link to="/" className="logo">
-            LOGO
-          </Link>
+          <Link to="/" className="logo">LOGO</Link>
         </li>
       </ul>
-      {username ? (
+      {user ? (
         <ul className="nav">
           <li>
-          <Link to="/upload" className="button">
-            Upload
-          </Link>
-        </li>
-        <li>
-          <Link onClick={handleLive} className="button">
-            Go Live
-          </Link>
-        </li>
-        <li>
-          <Link to={`/chat/${username.name}`}  className="button">
-            Messages
-          </Link>
-        </li>
+            <Link to="/upload" className="button">Upload</Link>
+          </li>
           <li>
-            <Link onClick={logout} className="button">
-              Logout
-            </Link>
+            <Link onClick={handleLive} className="button">Go Live</Link>
+          </li>
+          <li>
+            <Link to={`/chat/${user.name}`} className="button">Messages</Link>
+          </li>
+          <li>
+            <Link onClick={logout} className="button">Logout</Link>
           </li>
         </ul>
       ) : (
         <ul className="nav">
           <li>
-            <Link to="/login" className="button">
-              Login
-            </Link>
+            <Link to="/login" className="button">Login</Link>
           </li>
           <li>
-            <Link to="/signup" className="button">
-              Signup
-            </Link>
+            <Link to="/signup" className="button">Signup</Link>
           </li>
         </ul>
       )}

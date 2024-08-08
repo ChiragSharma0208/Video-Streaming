@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Header from "../components/header.jsx";
+
 import Index from "../components/index.jsx";
 import axios from "axios";
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
           withCredentials: true,
         });
         setUsername(response.data);
-        // console.log(response.data);
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -22,8 +22,6 @@ export default function Home() {
 
   return (
     <div>
-      
-      <Header username={username}/>
       <Index  username={username}/>
     </div>
   )

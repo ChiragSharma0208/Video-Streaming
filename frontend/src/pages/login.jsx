@@ -1,43 +1,25 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { TextField, Button } from "@mui/material";
-import toast from "react-hot-toast";
-import "./login.css";
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../components/authContext';
+import { TextField, Button } from '@mui/material';
+
+import './login.css';
 
 export default function Login() {
-  const [data, setData] = useState({
-    user: "",
-    password: "",
-  });
-
+  const [data, setData] = useState({ user: '', password: '' });
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const loginUser = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const { user, password } = data;
-    try {
-      const { data } = await axios.post("/login", {
-        email: user,
-        password: password,
-      });
-
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        setData({});
-        toast.success("Logged in successfully");
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Username or Password Incorrect")
-    }
+    await login(user, password);
+    navigate('/');
   };
 
   return (
     <div className="form-container">
-      <form className="styled-form" onSubmit={loginUser}>
+      <form className="styled-form" onSubmit={handleLogin}>
         <h1>Holla, Welcome Back</h1>
         <TextField
           type="email"
@@ -59,15 +41,9 @@ export default function Login() {
           placeholder="Enter Password"
           onChange={(e) => setData({ ...data, password: e.target.value })}
         />
-      
-        <Button sx={{ mt: 2 }} type="submit" variant="contained">
-          Sign In
-        </Button>
-        <p className="signup">
-          Don't have an account? <a href="/signup">Sign Up</a>
-        </p>
+        <Button sx={{ mt: 2 }} type="submit" variant="contained">Sign In</Button>
+        <p className="signup">Don't have an account? <a href="/signup">Sign Up</a></p>
       </form>
-      
     </div>
   );
 }
