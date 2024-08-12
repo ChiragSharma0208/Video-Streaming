@@ -8,7 +8,7 @@ const authRoutes = require("./routes/authRoutes");
 const http = require("http");
 const socketIo = require("socket.io");
 const cookieParser = require("cookie-parser");
-const db=require("./DB/db")
+const db = require("./DB/db");
 
 const app = express();
 const port = 8080;
@@ -24,6 +24,7 @@ const io = socketIo(server, {
 });
 
 const users = {};
+const streamData = {}; 
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -36,8 +37,13 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", async (data) => {
     const { to, message, from } = data;
     const receiverSocketId = users[to];
+    console.log(`Sending message from ${from} to ${to}`, data);
+
     if (receiverSocketId) {
-      io.to(receiverSocketId).emit("receiveMessage", { message, from });
+      io.to(receiverSocketId).emit("receiveMessage", { to, message, from });
+      console.log(`Message sent to ${to}`);
+    } else {
+      console.log(`No socket ID found for ${to}`);
     }
 
     try {
@@ -50,14 +56,35 @@ io.on("connection", (socket) => {
       console.error("Error storing message in database:", err);
     }
   });
-
-  socket.on("offer", (offer) => {
-    socket.broadcast.emit("offer", offer);
+  socket.on("offer", ({ user, offer }) => {
+    if (!streamData[user]) {
+      streamData[user] = { offer: null, iceCandidates: [] };
+    }
+    streamData[user].offer = offer;
+    console.log(`Offer stored for ${user}:`, streamData[user]);
   });
 
   socket.on("join-stream", ({ user }) => {
+    console.log(`User joining stream: ${user}`);
     socket.join(user);
     console.log(`Joined stream: ${user}`);
+
+    if (!streamData[user]) {
+      console.log(`No stream data for ${user}`);
+      return;
+    }
+
+    const { offer, iceCandidates } = streamData[user];
+
+    if (offer) {
+      socket.emit("offer", offer);
+    }
+
+    if (iceCandidates && iceCandidates.length > 0) {
+      iceCandidates.forEach((candidate) => {
+        socket.emit("ice-candidate", candidate);
+      });
+    }
   });
 
   socket.on("answer", (answer) => {
@@ -65,11 +92,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("ice-candidate", (candidate) => {
+    const { user } = candidate;
+
+    if (streamData[user]) {
+      streamData[user].iceCandidates.push(candidate);
+    } else {
+      streamData[user] = { offer: null, iceCandidates: [candidate] };
+    }
+
     socket.broadcast.emit("ice-candidate", candidate);
   });
 
   socket.on("disconnect", () => {
-
     for (const [username, id] of Object.entries(users)) {
       if (id === socket.id) {
         delete users[username];

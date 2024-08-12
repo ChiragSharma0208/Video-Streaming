@@ -2,11 +2,13 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch user profile on mount
@@ -23,17 +25,20 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    try {
+    try { 
       const response = await axios.post('/login', { email, password }, { withCredentials: true });
       if (response.data.error) {
         toast.error(response.data.error);
       } else {
-        setUser(response.data); // Update user state
+        setUser(response.data); 
         toast.success('Logged in successfully');
+        navigate('/');
       }
     } catch (error) {
       console.error('Error during login:', error);
       toast.error('Username or Password Incorrect');
+
+    
     }
   };
 

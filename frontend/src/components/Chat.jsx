@@ -20,22 +20,28 @@ const DM = () => {
     socketClient.emit("register", username);
 
     axios
-      .get(`http://localhost:8080/messages/${name}`)
+      .get(`http://localhost:8080/messages/${username}`)
       .then((response) => {
         const data = response.data;
         setMessages(data);
         extractRecipients(data);
+        filterMessages(recipient, data); // Filter messages immediately after fetching
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
       });
 
     socketClient.on("receiveMessage", (data) => {
+      console.log("Received message:", data); // Debugging log
       setMessages((prevMessages) => {
+        console.log(data);
         const newMessages = [...prevMessages, data];
+        console.log("new messages are ",newMessages);
         extractRecipients(newMessages);
+        filterMessages(recipient, newMessages); // Filter messages after receiving a new one
         return newMessages;
       });
+      
     });
 
     return () => {
@@ -56,37 +62,51 @@ const DM = () => {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (socket) {
-      socket.emit("sendMessage", { to: recipient, message, from: username });
+    if (socket && recipient && message) {
+      const msgData = { to: recipient, message, from: username };
+      console.log("Sending message:", msgData); // Debugging log
+      socket.emit("sendMessage", msgData);
       setMessages((prevMessages) => {
-        const newMessages = [
-          ...prevMessages,
-          { message, from: username, to: recipient },
-        ];
+        const newMessages = [...prevMessages, msgData];
+        console.log("new messages are ",newMessages);
         extractRecipients(newMessages);
+        filterMessages(recipient, newMessages); // Filter messages after sending a new one
         return newMessages;
       });
+      
       setMessage("");
     }
   };
 
   const handleRecipientClick = (rec) => {
     setRecipient(rec);
-    filterMessages(rec);
+    filterMessages(rec, messages);
   };
 
-  const filterMessages = (rec) => {
-    const filtered = messages.filter(
+  const filterMessages = (rec, allMessages) => {
+    if (!rec) {
+      console.log("No recipient selected");
+      setFilteredMessages([]);
+      return;
+    }
+  
+    console.log("Recipient for filtering:", rec);
+    console.log("Messages to filter:", allMessages);
+  
+    const filtered = allMessages.filter(
       (msg) =>
         (msg.from === rec && msg.to === username) ||
         (msg.from === username && msg.to === rec)
     );
+  
+    console.log("Filtered messages:", filtered);
     setFilteredMessages(filtered);
   };
+  
 
   useEffect(() => {
     if (recipient) {
-      filterMessages(recipient);
+      filterMessages(recipient, messages);
     }
   }, [messages, recipient]);
 
@@ -108,7 +128,7 @@ const DM = () => {
       </div>
       <div className="chat-area">
         <div className="chat-header">
-          <h3>{recipient}</h3>
+          <h3>{recipient || "Select a chat"}</h3>
         </div>
         <div className="messages">
           {filteredMessages.map((msg, index) => (
@@ -123,25 +143,25 @@ const DM = () => {
           ))}
         </div>
         <form onSubmit={handleSendMessage} className="message-form">
-  <input
-    type="text"
-    value={recipient}
-    onChange={(e) => setRecipient(e.target.value)}
-    placeholder="Recipient username"
-  />
-  <div className="sm-container">
-    <textarea
-      style={{ flex: 1 }}
-      value={message}
-      onChange={(e) => setMessage(e.target.value)}
-      placeholder="Type a message"
-      rows="1"
-    />
-    <button type="submit">Send</button>
-  </div>
-</form>
-
-
+          <input
+            type="text"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="Recipient username"
+            required
+          />
+          <div className="sm-container">
+            <textarea
+              style={{ flex: 1 }}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type a message"
+              rows="1"
+              required
+            />
+            <button type="submit">Send</button>
+          </div>
+        </form>
       </div>
     </div>
   );

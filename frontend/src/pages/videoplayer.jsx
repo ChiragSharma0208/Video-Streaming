@@ -242,7 +242,7 @@ export default function VideoPlayer() {
               <div key={index} className="comment">
                 <div className="comment-content">
                   <p>{`"${post.comments}"`}</p>
-                  <p className="timestamp">{`Posted at: ${new Date(post.created_at).toLocaleString()}`}</p>
+                  <p className="timestamp">{`Posted at: ${new Date(post.updated_at).toLocaleString() || new Date(post.created_at).toLocaleString()}`}</p>
                 </div>
                 {userInfo.user_id === post.user_id && (
                   <button

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { AuthContext } from '../components/authContext';
 import { TextField, Button } from '@mui/material';
 
@@ -8,13 +8,14 @@ import './login.css';
 export default function Login() {
   const [data, setData] = useState({ user: '', password: '' });
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
+ 
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const { user, password } = data;
-    await login(user, password);
-    navigate('/');
+    const response = await login(user, password);
+    console.log(response);
+    
   };
 
   return (
