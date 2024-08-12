@@ -9,6 +9,7 @@ export default function Header() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+
   const handleLive = async () => {
     // Ensure user is logged in before allowing live streaming
     if (user) {

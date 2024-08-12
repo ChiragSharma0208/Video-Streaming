@@ -9,7 +9,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
+ 
+  
   useEffect(() => {
     // Fetch user profile on mount
     const fetchUserProfile = async () => {
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data); 
         toast.success('Logged in successfully');
         navigate('/');
+        window.location.reload()
       }
     } catch (error) {
       console.error('Error during login:', error);

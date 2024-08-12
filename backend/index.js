@@ -19,19 +19,19 @@ const io = socketIo(server, {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
-    credentials: true
-  }
+    credentials: true,
+  },
 });
 
 const users = {};
 const streamData = {}; 
 
 io.on("connection", (socket) => {
-  console.log("New client connected");
+  console.log("New client connected: ", socket.id);
 
   socket.on("register", (username) => {
     users[username] = socket.id;
-    console.log(`User registered: ${username}`);
+    console.log(`User registered: ${username} with socket ID: ${socket.id}`);
   });
 
   socket.on("sendMessage", async (data) => {
@@ -56,50 +56,52 @@ io.on("connection", (socket) => {
       console.error("Error storing message in database:", err);
     }
   });
-  socket.on("offer", ({ user, offer }) => {
-    if (!streamData[user]) {
-      streamData[user] = { offer: null, iceCandidates: [] };
-    }
-    streamData[user].offer = offer;
-    console.log(`Offer stored for ${user}:`, streamData[user]);
+
+  socket.on("offer", (offer) => {
+    console.log("Received offer from broadcaster:", offer);
+    streamData.offer = offer;
+    streamData.iceCandidates = []
+
+    console.log("Broadcasting offer to all viewers except sender.");
+    socket.broadcast.emit("offer", offer);
   });
 
   socket.on("join-stream", ({ user }) => {
-    console.log(`User joining stream: ${user}`);
+    console.log(`User ${socket.id} joined stream: ${user}`);
     socket.join(user);
-    console.log(`Joined stream: ${user}`);
 
-    if (!streamData[user]) {
-      console.log(`No stream data for ${user}`);
-      return;
-    }
+    if (streamData.offer) {
+      console.log("Sending stored offer to new viewer.");
+      socket.emit("offer", streamData.offer);
 
-    const { offer, iceCandidates } = streamData[user];
-
-    if (offer) {
-      socket.emit("offer", offer);
-    }
-
-    if (iceCandidates && iceCandidates.length > 0) {
-      iceCandidates.forEach((candidate) => {
-        socket.emit("ice-candidate", candidate);
-      });
+      if (streamData.iceCandidates.length > 0) {
+        console.log(`Sending ${streamData.iceCandidates.length} stored ICE candidates to new viewer.`);
+        streamData.iceCandidates.forEach((candidate) => {
+          socket.emit("ice-candidate", candidate);
+        });
+      }
+    } else {
+      console.log("No offer available to send to the new viewer.");
     }
   });
 
   socket.on("answer", (answer) => {
+    console.log("Received answer from viewer:", answer);
+
+    console.log("Broadcasting answer to all broadcasters except sender.");
     socket.broadcast.emit("answer", answer);
   });
 
   socket.on("ice-candidate", (candidate) => {
-    const { user } = candidate;
+    console.log("Received ICE candidate:", candidate);
 
-    if (streamData[user]) {
-      streamData[user].iceCandidates.push(candidate);
+    if (streamData.iceCandidates) {
+      streamData.iceCandidates.push(candidate);
     } else {
-      streamData[user] = { offer: null, iceCandidates: [candidate] };
+      streamData.iceCandidates = [candidate];
     }
 
+    console.log("Broadcasting ICE candidate to peers.");
     socket.broadcast.emit("ice-candidate", candidate);
   });
 
@@ -111,14 +113,16 @@ io.on("connection", (socket) => {
         break;
       }
     }
-    console.log("Client disconnected");
+    console.log("Client disconnected:", socket.id);
   });
 });
 
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());

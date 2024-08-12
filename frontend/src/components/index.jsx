@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import VideoCard from "./videocard.jsx";
 import './index.css';
+import { Link } from "react-router-dom";
 
 export default function Index({ username }) {
   const [posts, setPosts] = useState([]);
@@ -88,13 +89,15 @@ export default function Index({ username }) {
         ))}
       </div>
 
-      {/* Live Stream Card */}
+
       {uniqueLivePosts.length > 0 && (
         <div className="live-card">
           <h2>Live Now!</h2>
           <p>Check out the live streams below:</p>
           {uniqueLivePosts.map((name, index) => (
+            <Link to={`/view/${name}`}>
             <div key={index}>{name} is Live </div>
+            </Link>
           ))}
         </div>
       )}
