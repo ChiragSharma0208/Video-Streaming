@@ -25,20 +25,20 @@ const DM = () => {
         const data = response.data;
         setMessages(data);
         extractRecipients(data);
-        filterMessages(recipient, data); // Filter messages immediately after fetching
+        filterMessages(recipient, data);
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
       });
 
     socketClient.on("receiveMessage", (data) => {
-      console.log("Received message:", data); // Debugging log
+      console.log("Received message:", data); 
       setMessages((prevMessages) => {
         console.log(data);
         const newMessages = [...prevMessages, data];
         console.log("new messages are ",newMessages);
         extractRecipients(newMessages);
-        filterMessages(recipient, newMessages); // Filter messages after receiving a new one
+        filterMessages(recipient, newMessages); 
         return newMessages;
       });
       
@@ -64,13 +64,13 @@ const DM = () => {
     e.preventDefault();
     if (socket && recipient && message) {
       const msgData = { to: recipient, message, from: username };
-      console.log("Sending message:", msgData); // Debugging log
+      console.log("Sending message:", msgData); 
       socket.emit("sendMessage", msgData);
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, msgData];
         console.log("new messages are ",newMessages);
         extractRecipients(newMessages);
-        filterMessages(recipient, newMessages); // Filter messages after sending a new one
+        filterMessages(recipient, newMessages); 
         return newMessages;
       });
       
