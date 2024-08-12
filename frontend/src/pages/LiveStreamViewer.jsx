@@ -42,12 +42,10 @@ const LiveStreamViewer = () => {
             }
           };
 
-          // Handle incoming offer
           socket.on("offer", async (offer) => {
             console.log("Received offer:", offer);
             await pc.setRemoteDescription(new RTCSessionDescription(offer));
 
-            // Process queued ICE candidates
             while (iceCandidatesQueue.current.length > 0) {
               const candidate = iceCandidatesQueue.current.shift();
               await pc.addIceCandidate(new RTCIceCandidate(candidate));
@@ -59,7 +57,6 @@ const LiveStreamViewer = () => {
             socket.emit("answer", answer);
           });
 
-          // Handle incoming ICE candidates
           socket.on("ice-candidate", (candidate) => {
             console.log("Received ICE candidate:", candidate);
 

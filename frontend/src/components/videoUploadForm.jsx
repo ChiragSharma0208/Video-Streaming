@@ -95,7 +95,7 @@ const VideoUploadForm = () => {
     };
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="md" style={{ marginTop: '65px' }}>
             
                <h1> Upload Video and Thumbnail</h1>
             
@@ -135,7 +135,7 @@ const VideoUploadForm = () => {
                             value={tagInput}
                             onChange={handleTagInputChange}
                         />
-                        <Button variant="contained" color="primary" onClick={handleAddTag}>
+                        <Button variant="contained" color="primary" onClick={handleAddTag} style={{ marginTop: '20px' }}>
                             Add Tag
                         </Button>
                     </Grid>

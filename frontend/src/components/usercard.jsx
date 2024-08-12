@@ -1,4 +1,3 @@
-// UserCard.js
 import React from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
 

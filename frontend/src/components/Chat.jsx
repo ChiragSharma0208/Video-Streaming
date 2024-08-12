@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import "./Chat.css";
@@ -13,6 +13,7 @@ const DM = () => {
   const { name } = useParams();
   const username = name;
   const [recipients, setRecipients] = useState([]);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const socketClient = io("http://localhost:8080");
@@ -32,16 +33,13 @@ const DM = () => {
       });
 
     socketClient.on("receiveMessage", (data) => {
-      console.log("Received message:", data); 
+      console.log("Received message:", data);
       setMessages((prevMessages) => {
-        console.log(data);
         const newMessages = [...prevMessages, data];
-        console.log("new messages are ",newMessages);
         extractRecipients(newMessages);
-        filterMessages(recipient, newMessages); 
+        filterMessages(recipient, newMessages);
         return newMessages;
       });
-      
     });
 
     return () => {
@@ -64,16 +62,14 @@ const DM = () => {
     e.preventDefault();
     if (socket && recipient && message) {
       const msgData = { to: recipient, message, from: username };
-      console.log("Sending message:", msgData); 
+      console.log("Sending message:", msgData);
       socket.emit("sendMessage", msgData);
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, msgData];
-        console.log("new messages are ",newMessages);
         extractRecipients(newMessages);
-        filterMessages(recipient, newMessages); 
+        filterMessages(recipient, newMessages);
         return newMessages;
       });
-      
       setMessage("");
     }
   };
@@ -89,26 +85,31 @@ const DM = () => {
       setFilteredMessages([]);
       return;
     }
-  
+
     console.log("Recipient for filtering:", rec);
     console.log("Messages to filter:", allMessages);
-  
+
     const filtered = allMessages.filter(
       (msg) =>
         (msg.from === rec && msg.to === username) ||
         (msg.from === username && msg.to === rec)
     );
-  
+
     console.log("Filtered messages:", filtered);
     setFilteredMessages(filtered);
   };
-  
 
   useEffect(() => {
     if (recipient) {
       filterMessages(recipient, messages);
     }
   }, [messages, recipient]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [filteredMessages]);
 
   return (
     <div className="dm-container">
@@ -141,6 +142,7 @@ const DM = () => {
               <span>{msg.message}</span>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <form onSubmit={handleSendMessage} className="message-form">
           <input

@@ -11,7 +11,6 @@ export default function Header() {
 
 
   const handleLive = async () => {
-    // Ensure user is logged in before allowing live streaming
     if (user) {
       await axios.post('/api/live', { videoId: user.name, isLive: true });
       navigate(`/live/${user.name}`);
