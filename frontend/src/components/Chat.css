@@ -1,9 +1,8 @@
 .dm-container {
   display: flex;
-  height: 97vh;
+  height: 92.5vh;
   
-
-  margin-top: 13px;
+  margin-top: 45px;
   padding: 10px 0px 0px 0px ;
 }
 .dark-mode .sidebar  {
@@ -60,8 +59,9 @@
 .recipient.active {
   background: #dcdcdc;
   font-weight: 600;
-  color: #007bff;
+  color: black;
 }
+
 
 .chat-area {
   flex: 1;
@@ -70,7 +70,7 @@
 }
 
 .chat-header {
-  padding: 20px;
+  padding: 10px;
   background: #ffffff;
   border-bottom: 1px solid #e0e0e0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -168,12 +168,14 @@
 }
 
 .message-form button {
-  padding: 12px 24px;
+  padding: 8px 24px;
   border: none;
   border-radius: 25px;
   background: #007bff;
   color: white;
   cursor: pointer;
+  margin-top: 0px;
+  margin-bottom: 10px;
   font-size: 1rem;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -188,6 +190,6 @@
 }
 .sm-container {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }

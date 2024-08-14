@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Chat.css";
 import { useParams } from "react-router-dom";
 import { useDarkMode } from "./DarkModeContext";
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
 const DM = () => {
   const [socket, setSocket] = useState(null);
@@ -164,7 +165,7 @@ const DM = () => {
               rows="1"
               required
             />
-            <button type="submit">Send</button>
+            <button type="submit"><SendRoundedIcon/></button>
           </div>
         </form>
       </div>
