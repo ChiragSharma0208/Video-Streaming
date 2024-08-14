@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import './videocard.css';
 import { Link } from 'react-router-dom';
+import { useDarkMode } from './DarkModeContext';
+
 
 const VideoCard = ({ video_id, name, title, path }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const {darkMode}=useDarkMode()
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -14,6 +17,7 @@ const VideoCard = ({ video_id, name, title, path }) => {
   };
 
   return (
+    <div>
     <div className='parent'>
       <div className={`video-card ${isHovered ? 'hovered' : ''}`}
         onMouseEnter={handleMouseEnter}
@@ -34,6 +38,7 @@ const VideoCard = ({ video_id, name, title, path }) => {
           <p className="video-card-channel">{name}</p>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import "./LiveStreamPage.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDarkMode } from "../components/DarkModeContext";
 
 const LiveStreamPage = () => {
   const { user } = useParams();
@@ -11,6 +12,7 @@ const LiveStreamPage = () => {
   const [socket, setSocket] = useState(null);
   const [peerConnection, setPeerConnection] = useState(null);
   const [stream, setStream] = useState(null);
+  const {darkMode}=useDarkMode()
 
   useEffect(() => {
     const socketClient = io("http://localhost:8080", {
@@ -82,12 +84,14 @@ const LiveStreamPage = () => {
   };
 
   return (
+    <div className={darkMode?'dark-mode':'light-mode'}>
     <div className="container">
       <div className="video-container">
         <video ref={videoRef} autoPlay muted />
       </div>
       <button className="button" onClick={stopStreaming}>Stop Stream</button>
       {!stream && <div className="message">Streaming has been stopped.</div>}
+    </div>
     </div>
   );
 };

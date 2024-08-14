@@ -1,11 +1,17 @@
 .dm-container {
   display: flex;
-  height: 96vh;
-  background: #f5f6f7;
+  height: 97vh;
+  
+
   margin-top: 13px;
   padding: 10px 0px 0px 0px ;
 }
+.dark-mode .sidebar  {
+  background: #1e1e1e;
+  border-right: 1px solid #444;
+ 
 
+}
 .sidebar {
   width: 220px;
   background: #ffffff;
@@ -17,14 +23,18 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.sidebar:hover {
-  background: #f7f7f7;
+.light-mode .sidebar:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+ 
+}
+.dark-mode .sidebar:hover .recipient:hover{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  color: black;
+ 
 }
 
 .sidebar h3 {
   margin-bottom: 20px;
-  color: #444;
   font-size: 1.5rem;
 }
 
@@ -68,6 +78,10 @@
   align-items: center;
   justify-content: space-between;
 }
+.dark-mode .chat-header{
+  background: #1e1e1e;
+  border: 1px solid #444;
+}
 
 .chat-header h2 {
   margin: 0;
@@ -82,6 +96,10 @@
   display: flex;
   flex-direction: column;
   background: #f9f9f9;
+}
+.dark-mode .messages{
+  background-color: #333;
+ 
 }
 
 .message {
@@ -116,6 +134,11 @@
   border-top: 1px solid #e0e0e0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
+.dark-mode .message-form{
+  background: #1e1e1e;
+  border: 1px solid #444;
+}
+
 
 .message-form input,
 .message-form textarea {
@@ -126,8 +149,17 @@
   margin-bottom: 10px;
   resize: none;
   font-size: 1rem;
-  color: #333;
+ 
 }
+
+.dark-mode .message-form input,.dark-mode .message-form textarea{
+  background: #333;
+  border: 1px solid #444;
+  color: whitesmoke;
+
+
+}
+
 
 .message-form input:focus,
 .message-form textarea:focus {

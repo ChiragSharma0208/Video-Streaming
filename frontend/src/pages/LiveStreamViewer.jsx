@@ -2,14 +2,16 @@ import React, { useRef, useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./LiveStreamViewer.css";
 import { useParams } from "react-router-dom";
+import { useDarkMode } from "../components/DarkModeContext";
+
 
 const LiveStreamViewer = () => {
   const { user } = useParams();
   const videoRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const [peerConnection, setPeerConnection] = useState(null);
-  const iceCandidatesQueue = useRef([]); 
-
+  const iceCandidatesQueue = useRef([]);
+  const { darkMode } = useDarkMode();
   useEffect(() => {
     const socketClient = io("http://localhost:8080", {
       withCredentials: true,
@@ -80,9 +82,11 @@ const LiveStreamViewer = () => {
   }, [socket, user]);
 
   return (
-    <div className="container">
-      <div className="video-container">
-        <video ref={videoRef} autoPlay controls />
+    <div className={darkMode ? "dark-mode" : "light-mode"}>
+      <div className="container">
+        <div className="video-container">
+          <video ref={videoRef} autoPlay controls />
+        </div>
       </div>
     </div>
   );

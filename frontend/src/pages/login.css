@@ -6,6 +6,10 @@
   background: url('../../public/cover.jpg') no-repeat center center fixed;
   background-size: cover;
 }
+.dark-mode .form-container{
+  background:url('../../public/darkmode.jpg');
+  background-size: cover;
+}
 
 .styled-form {
   max-width: 400px;
@@ -15,7 +19,10 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.dark-mode .styled-form, .dark-mode .styled-form h1{
+  background-color: #1e1e1e;
+  color: aliceblue;
+}
 .styled-form h1 {
   font-size: 2.5rem;
   font-weight: 700;
@@ -27,15 +34,37 @@
   width: 100%;
   margin-bottom: 15px;
 }
-
+.dark-mode .styled-form .MuiInputLabel-root.Mui-focused {
+  color:aliceblue;
+}
+.dark-mode .styled-form .MuiInputLabel-root {
+  color: aliceblue; 
+  transition: color 0.3s ease;
+}
+.dark-mode .styled-form .MuiTextField-root {
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: #333;
+  color: #fff;
+}
 .styled-form .MuiButton-contained {
   background-color: #6C63FF;
   color: white;
+}
+.dark-mode .styled-form .MuiButton-contained{
+  background-color: whitesmoke;
+  color: black;
 }
 
 .styled-form .MuiButton-contained:hover {
   background-color: #5750d1;
 }
+
+.dark-mode .styled-form .MuiButton-contained:hover {
+  background-color: rgba(0, 0, 0, 0.31);
+  color: whitesmoke;
+}
+
 
 .signup {
   text-align: center;

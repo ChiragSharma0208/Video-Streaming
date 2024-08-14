@@ -1,296 +1,357 @@
+
 .list-data {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: 20px;
-    margin-top: 60px;
-  }
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px;
+  padding-top: 60px;
+}
+.dark-mode>.list-data{
+  background-color:black;
+}
+.light-mode{
+  color: black;
+}
+/* Video player container */
+.video-player-container {
+  flex: 1;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Darker shadow */
+  margin: 10px;
+}
 
+/* Video player wrapper */
+.video-player-wrapper {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+
+}
+
+.dark-mode> .list-data> .video-player-container{
+  background: #1e1e1e;
+}
+.light-mode>.list-data > .video-player-container{
+  background: white;
+}
+
+/* Video player */
+.video-player {
+  width: 100%;
+  height: auto;
+}
+
+/* Video details */
+.video-details {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  border-top: 1px solid #333; /* Darker border */
+  margin-top: 20px;
+}
+
+/* Video title */
+.video-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Video author */
+.video-author {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+/* Subscribe button */
+.subscribe-button {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Subscribe button */
+.subscribe-btn {
+  padding: 10px 20px;
+  background-color: #e53935; /* Darker red */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background-color: #c62828; /* Darker red on hover */
+}
+
+/* Like button */
+.like-btn {
+  padding: 10px 20px;
+  background-color: #1e88e5; /* Darker blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.like-btn:hover {
+  background-color: #1565c0; /* Darker blue on hover */
+}
+
+/* User info */
+.user-info {
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* Comment box */
+#comment-box {
+  width: 97%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #444; /* Darker border */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  resize: none;
+ 
+  color: #e0e0e0; /* Light text color */
+}
+.dark-mode #comment-box{
+  background-color: #333; /* Dark background */
+}
+#comment-box:focus {
+  border-color: #66afe9;
+  outline: none;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+/* Button */
+button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Comments section */
+.comments-section {
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* Comment */
+.comment {
+  border-bottom: 1px solid #333; /* Darker border */
+  padding: 10px 0;
+}
+
+/* Comment content */
+.comment-content {
+  font-size: 14px;
+}
+
+/* Timestamp */
+.timestamp {
+  font-size: 12px;
+  color: #777; /* Lighter gray for timestamp */
+  margin-top: 5px;
+}
+
+/* Edit button */
+.edit-button {
+  background-color: transparent;
+  border: none;
+  color: #007bff; /* Primary blue */
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
+
+.edit-button:hover {
+  color: #ffffff; /* White on hover */
+}
+
+/* Edit section */
+.edit-section {
+  display: flex;
+  flex-direction: column;
+ 
+  border: 1px solid #444; /* Darker border */
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+.dark-mode .edit-section{
+  background-color: #1e1e1e; /* Dark background */
+}
+.light-mode .edit-section{
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  
+}
+
+
+/* Edit comment box */
+.edit-comment-box {
+  width: 97%;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  
+  transition: border-color 0.3s ease;
+  resize: none;
+}
+.dark-mode .edit-comment-box{
+  background-color: #444;
+  color: white;
+}
+
+
+
+.edit-comment-box:focus {
+  border-color: #66afe9;
+  outline: none;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+/* Edit buttons */
+.edit-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Save button */
+.save-btn {
+  padding: 10px 20px;
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Cancel button */
+.cancel-btn {
+  padding: 10px 20px;
+  background-color: #f44336; /* Primary red */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #c62828; /* Darker red on hover */
+}
+
+/* Video list */
+.video-list {
+  flex: 0.3;
+  max-width: 300px;
+  padding: 20px;
+ 
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Darker shadow */
+  margin: 10px;
+  height: fit-content;
+}
+.dark-mode> .list-data> .video-list{
+  background: #1e1e1e;
+}
+
+/* Video thumbnail */
+.video-thumbnail {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;/* Darker border */
+  border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.dark-mode> .list-data> .video-list>.video-thumbnail{
+  border: 1px solid #444;
+}
+.light-mode> .list-data> .video-list>.video-thumbnail{
+  border: 1px solid #ddd;
+}
+.video-thumbnail img {
+  width: 50%;
+  height: auto;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.video-thumbnail p {
+  font-size: 16px;
+   /* Light text color */
+}
+
+.video-thumbnail:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+
+/* Responsive adjustments for dark mode */
+@media (max-width: 900px) {
   .video-player-container {
-    flex: 1;
-    max-width: 800px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-  }
-
-  .video-player-wrapper {
-    width: 100%;
-    background-color: #000;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 15px;
-  }
-
-  .video-player {
-    width: 100%;
-    height: auto;
-  }
-
-  .video-details {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-    border-top: 1px solid #eee;
-    margin-top: 20px;
-  }
-
-  .video-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-
-  .video-author {
-    font-size: 16px;
-    color: #555;
-    cursor: pointer;
-  }
-
-  .video-author strong {
-    color: #222;
-  }
-
-  .subscribe-button {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-
-  .subscribe-btn {
-    padding: 10px 20px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px;
-    transition: background-color 0.3s ease;
-  }
-
-  .subscribe-btn:hover {
-    background-color: #e53935;
-  }
-
-  .like-btn {
-    padding: 10px 20px;
-    background-color: #2196f3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 10px;
-    transition: background-color 0.3s ease;
-  }
-
-  .like-btn:hover {
-    background-color: #1976d2;
-  }
-
-  .user-info {
-    width: 100%;
-    margin: 20px 0;
-  }
-
-  #comment-box {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-    resize: none;
-  }
-
-  #comment-box:focus {
-    border-color: #66afe9;
-    outline: none;
-    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
-  }
-
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-  }
-
-  button:hover {
-    background-color: #0056b3;
-  }
-
-  .comments-section {
-    width: 100%;
-    margin: 20px 0;
-  }
-
-  .comment {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-  }
-
-  .comment-content {
-    font-size: 14px;
-    color: #333;
-  }
-
-  .timestamp {
-    font-size: 12px;
-    color: #999;
-    margin-top: 5px;
-  }
-
-  .edit-button {
-    background-color: transparent;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-    transition: color 0.3s ease;
-  }
-
-  .edit-button:hover {
-    color: #ffffff;
-  }
-  .edit-section {
-    display: flex;
-    flex-direction: column;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .edit-comment-box {
-    width: 97%;
-    height: 80px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-    resize: none;
-  }
-  
-  .edit-comment-box:focus {
-    border-color: #66afe9;
-    outline: none;
-    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
-  }
-  
-  .edit-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .save-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .save-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .cancel-btn {
-    padding: 10px 20px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #e53935;
+    max-width: 100%;
   }
 
   .video-list {
-    flex: 0.3;
-    max-width: 300px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    height: fit-content;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .video-details {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .video-thumbnail {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+  .subscribe-button {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .video-thumbnail img {
-    width: 50%;
-    height: auto;
-    border-radius: 5px;
-    margin-right: 10px;
+  .like-btn {
+    margin-left: 0;
+    margin-top: 10px;
   }
+}
 
-  .video-thumbnail p {
-    font-size: 16px;
-    color: #333;
-  }
-
-  .video-thumbnail:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (max-width: 900px) {
-    .video-player-container {
-      max-width: 100%;
-    }
-
-    .video-list {
-      max-width: 100%;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .video-details {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .subscribe-button {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .like-btn {
-      margin-left: 0;
-      margin-top: 10px;
-    }
-  }

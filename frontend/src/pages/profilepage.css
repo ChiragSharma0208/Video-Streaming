@@ -10,6 +10,9 @@
   margin-top: 65px;
 }
 
+.dark-mode .master{
+  background-color: #1e1e1e;
+}
 .name {
   display: flex;
   align-items: center;
@@ -26,7 +29,7 @@
   font-weight: bold;
 }
 
-/* About Section */
+
 .about {
   margin-bottom: 20px;
 }
@@ -42,8 +45,16 @@
   color: #666;
   line-height: 1.6;
 }
+.dark-mode .about h1,.dark-mode .videos h1,.dark-mode .name h2{
+ 
+  color: #ffffff;
+}
 
-/* Break Line */
+.dark-mode .about p{
+  color: rgba(255, 255, 255, 0.67);
+}
+
+
 .break {
   background-color: #eee;
   width: 100%;

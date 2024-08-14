@@ -5,6 +5,14 @@
   padding: 10px 0;
   gap: 20px;
 }
+.dark-mode .super{
+  background-color: #333;
+}
+.super{
+  height: 100%;
+  margin-top: 0;
+  padding-top: 65px;
+}
 
 .navbar p {
   color: black;
@@ -14,6 +22,9 @@
   padding: 10px 20px;
   transition: color 0.1s ease, background-color 0.1s ease;
 }
+.dark-mode .navbar p{
+  color: white;
+}
 
 .navbar p:hover,
 .navbar p.active {
@@ -21,7 +32,12 @@
   background-color: black;
   border-radius: 5px;
 }
-
+.dark-mode .navbar p:hover,
+.dark-mode .navbar p.active {
+  color: black;
+  background-color: white;
+  border-radius: 5px;
+}
 .video-container {
   display: flex;
   flex-wrap: wrap;
@@ -91,7 +107,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
-  margin: 20px auto;
+  margin: 20px auto 0pc auto ;
   width: 80%;
   max-width: 600px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -3,6 +3,7 @@ import axios from "axios";
 import VideoCard from "./videocard.jsx";
 import './index.css';
 import { Link } from "react-router-dom";
+import { useDarkMode } from "./DarkModeContext.jsx";
 
 export default function Index({ username }) {
   const [posts, setPosts] = useState([]);
@@ -10,6 +11,7 @@ export default function Index({ username }) {
   const [flag, setFlag] = useState(true);
   const [search, setSearch] = useState("");
   const [hidden, setHidden] = useState(false);
+  const {darkMode} =useDarkMode()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +70,8 @@ export default function Index({ username }) {
       ));
 
   return (
-    <>
+    <div className= {darkMode ? 'dark-mode' : 'light-mode'}>
+    <div className="super">
       <div className="navbar">
         <p onClick={() => handleFlagChange(true)} className={flag ? 'active' : ''}><strong>ALL</strong></p>
         <p onClick={() => handleFlagChange(false)} className={!flag ? 'active' : ''}><strong>SUBSCRIBED</strong></p>
@@ -101,6 +104,7 @@ export default function Index({ username }) {
           ))}
         </div>
       )}
-    </>
+    </div>
+    </div>
   );
 }

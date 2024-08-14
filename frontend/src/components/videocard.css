@@ -12,6 +12,16 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
+
+.dark-mode .video-card-info {
+background-color: #222;
+}
+.dark-mode .video-card {
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.093);
+  border-color: #444;
+}
+
+
 .video-card:hover {
   transform: scale(1.05); 
   cursor: pointer;
@@ -42,6 +52,10 @@
 .video-card-channel {
   color: #555;
   margin: 4px 0;
+}
+.dark-mode .video-card-channel {
+  color: #ffffffd3;
+  
 }
 
 .play-button {

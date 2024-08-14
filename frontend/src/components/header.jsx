@@ -1,56 +1,70 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from './authContext';
+import { useDarkMode } from './DarkModeContext';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import "./header.css";
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);
+  const { darkMode, toggleDarkMode } = useDarkMode();
   const navigate = useNavigate();
-
 
   const handleLive = async () => {
     if (user) {
-      await axios.post('/api/live', { videoId: user.name, isLive: true });
-      navigate(`/live/${user.name}`);
+      try {
+        await axios.post('/api/live', { videoId: user.name, isLive: true });
+        navigate(`/live/${user.name}`);
+      } catch (error) {
+        toast.error('Error starting live stream');
+      }
     } else {
       toast.error('You need to be logged in to go live');
     }
   };
 
   return (
-    <header className="header">
+    <div className={darkMode ? 'dark-mode' : 'light-mode'}>
+    <header className="header" >
       <ul className="nav">
         <li>
           <Link to="/" className="logo">LOGO</Link>
         </li>
       </ul>
-      {user ? (
-        <ul className="nav">
-          <li>
-            <Link to="/upload" className="button">Upload</Link>
-          </li>
-          <li>
-            <Link onClick={handleLive} className="button">Go Live</Link>
-          </li>
-          <li>
-            <Link to={`/chat/${user.name}`} className="button">Messages</Link>
-          </li>
-          <li>
-            <Link onClick={logout} className="button">Logout</Link>
-          </li>
-        </ul>
-      ) : (
-        <ul className="nav">
-          <li>
-            <Link to="/login" className="button">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup" className="button">Signup</Link>
-          </li>
-        </ul>
-      )}
+      <ul className="nav">
+        {user ? (
+          <>
+            <li>
+              <Link to="/upload" className="button">Upload</Link>
+            </li>
+            <li>
+              <Link onClick={handleLive} className="button">Go Live</Link>
+            </li>
+            <li>
+              <Link to={`/chat/${user.name}`} className="button">Messages</Link>
+            </li>
+            <li>
+              <Link onClick={logout} className="button">Logout</Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/login" className="button">Login</Link>
+            </li>
+            <li>
+              <Link to="/signup" className="button">Signup</Link>
+            </li>
+          </>
+        )}
+        <li>
+          <Link onClick={toggleDarkMode} className="button toggle-button">
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </Link>
+        </li>
+      </ul>
     </header>
+    </div>
   );
 }

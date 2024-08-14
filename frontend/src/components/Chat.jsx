@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import "./Chat.css";
 import { useParams } from "react-router-dom";
+import { useDarkMode } from "./DarkModeContext";
 
 const DM = () => {
   const [socket, setSocket] = useState(null);
@@ -14,6 +15,7 @@ const DM = () => {
   const username = name;
   const [recipients, setRecipients] = useState([]);
   const messagesEndRef = useRef(null);
+  const {darkMode}=useDarkMode()
 
   useEffect(() => {
     const socketClient = io("http://localhost:8080");
@@ -112,6 +114,7 @@ const DM = () => {
   }, [filteredMessages]);
 
   return (
+    <div className={darkMode?'dark-mode':'light-mode'}>
     <div className="dm-container">
       <div className="sidebar">
         <h3>Chats</h3>
@@ -165,6 +168,7 @@ const DM = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };
