@@ -11,7 +11,8 @@
 .super{
   height: 100%;
   margin-top: 0;
-  padding-top: 65px;
+  padding-top: 31px;
+  padding-bottom:30px;
 }
 
 .navbar p {

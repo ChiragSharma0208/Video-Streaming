@@ -1,6 +1,5 @@
-/* Default Header Styles */
 .header {
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,15 +11,13 @@
   z-index: 1000;
 }
 
-/* Dark Mode for Header */
 .dark-mode > .header {
-  background-color: #1e1e1e; /* Change to black */
+  background-color: #1e1e1e; 
 }
 .light-mode > .header {
-  background: linear-gradient(to right, #6a11cb, #2575fc); /* Change to black */
+  background: linear-gradient(to right, #6a11cb, #2575fc); 
 }
 
-/* Other Styles */
 .light-mode {
   background-color: #ffffff;
   color: #000000;
@@ -70,7 +67,6 @@
   color: darkblue;
 }
 
-/* Dark Mode Button Styles */
 .dark-mode .button {
   background-color: #555555;
   color: #ffffff;
